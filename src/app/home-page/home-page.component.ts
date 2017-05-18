@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 
-import {Router} from '@angular/router';
-
 import {AuthService} from '../providers/auth.service';
 
 @Component({
@@ -11,14 +9,21 @@ import {AuthService} from '../providers/auth.service';
 })
 export class HomePageComponent implements OnInit {
 
-    constructor(public authService: AuthService, private router: Router) {
+    private userDisplayName: String;
+
+    constructor(public authService: AuthService) {
+        this.authService.afAuth.auth.onAuthStateChanged((auth) => {
+            if (auth == null) {
+                // not logged in
+                this.userDisplayName = '';
+            } else {
+                // logged in
+                this.userDisplayName = auth.displayName;
+            }
+        });
     }
 
     ngOnInit() {
     }
 
-    logout() {
-        this.authService.logout();
-        this.router.navigate(['login']);
-    }
 }

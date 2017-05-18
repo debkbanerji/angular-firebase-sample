@@ -11,10 +11,11 @@ import {AppComponent} from './app.component';
 import {AuthService} from './providers/auth.service';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {HomePageComponent} from './home-page/home-page.component';
-import {firebaseConfig} from './config/firebase-config';
+import {config} from './config/firebase-config';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
-    {path: '', component: HomePageComponent},
+    {path: '', component: HomePageComponent}, // Default route
     {path: 'login', component: LoginPageComponent}
 ];
 
@@ -22,13 +23,14 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
     declarations: [
         AppComponent,
         LoginPageComponent,
-        HomePageComponent
+        HomePageComponent,
+        NavBarComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireModule.initializeApp(config),
         RouterModule.forRoot(routes)
     ],
     providers: [AuthService, AngularFireAuth],

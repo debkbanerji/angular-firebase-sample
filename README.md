@@ -12,7 +12,7 @@ Then create `src/app/config/firebase-config.ts` and fill it out according to the
 
 The contents of the file should look similar to this:
 ```
-export const firebaseConfig = {
+export const config = {
   apiKey: 'YOUR_API_KEY_HERE',
   authDomain: 'YOUR_AUTH_DOMAIN_HERE',
   databaseURL: 'YOUR_DATABASE_URL_HERE',
