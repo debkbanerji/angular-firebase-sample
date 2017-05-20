@@ -7,7 +7,7 @@ import {AuthService} from '../providers/auth.service';
 @Component({
     selector: 'app-nav-bar',
     templateUrl: './nav-bar.component.html',
-    styleUrls: ['./nav-bar.component.css', '../shared/bootstrap-material-design.min.css']
+    styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
     private isLoggedIn: boolean;
