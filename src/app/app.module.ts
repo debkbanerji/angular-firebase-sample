@@ -6,17 +6,20 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 
 import {AppComponent} from './app.component';
 import {AuthService} from './providers/auth.service';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import {NavBarComponent} from './nav-bar/nav-bar.component';
+import {TextPostsComponent} from './text-posts/text-posts.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: '', component: HomePageComponent}, // Default route
-    {path: 'login', component: LoginPageComponent}
+    {path: 'login', component: LoginPageComponent},
+    {path: 'text-posts', component: TextPostsComponent}
 ];
 
 @NgModule({
@@ -24,7 +27,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
         AppComponent,
         LoginPageComponent,
         HomePageComponent,
-        NavBarComponent
+        NavBarComponent,
+        TextPostsComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +37,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
         AngularFireModule.initializeApp(config),
         RouterModule.forRoot(routes)
     ],
-    providers: [AuthService, AngularFireAuth],
+    providers: [AuthService, AngularFireAuth, AngularFireDatabase],
     bootstrap: [AppComponent]
 })
 export class AppModule {

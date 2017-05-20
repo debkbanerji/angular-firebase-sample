@@ -3,8 +3,7 @@
     color: #ffffff;
 }
 
-.clickable-navbar-item {
-    width: 100%;
+.nav-bar-fade-on-hover {
     cursor: pointer;
 
     display: inline-block;
@@ -22,8 +21,8 @@
     transition-property: color, background-color;
 }
 
-.clickable-navbar-item:hover, .clickable-navbar-item:focus, .clickable-navbar-item:active {
-    background-color: #ffbbbb;
+.nav-bar-fade-on-hover:hover, .nav-bar-fade-on-hover:focus, .nav-bar-fade-on-hover:active {
+    /*background-color: #ff4444;*/
     color: white;
 }
 
