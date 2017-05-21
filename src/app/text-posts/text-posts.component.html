@@ -12,24 +12,30 @@
                     <!--<div class="form-group">-->
                     <input name="title" ngModel required #first="ngModel" placeholder="Post Title"
                            class="form-control">
-                    <input name="text" ngModel required placeholder="Post Text" class="form-control">
+                    <textarea name="text" ngModel required placeholder="Post Text" class="form-control">
+
+                    </textarea>
                     <button class="btn btn-raised btn-success">Make New Post</button>
                     <!--</div>-->
                 </form>
                 <b>{{submitText}}</b>
             </div>
-            <div *ngFor="let post of postsArray | async | orderBy: 'post-datetime' | reverse">
+            <div *ngFor="let post of postsArray | async | orderBy: 'datetime' | reverse">
                 <div class="panel panel-danger">
                     <!--For previewing data as JSON-->
                     <!--{{post | json}}-->
                     <h3>{{post['title']}}</h3>
                     <p>{{post['text']}}</p>
-                    <p>Posted by {{post['poster-displayname']}} on <b>{{formatDate(post['post-datetime'])}}</b></p>
+                    <p>Posted by {{post['poster-displayname']}} on <b>{{formatDate(post['datetime'])}}</b></p>
                     <!--Users can only delete posts that they have made-->
                     <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post['$key'])"
                             class="btn btn-sm btn-raised btn-danger">Delete Post
                     </button>
                 </div>
+            </div>
+            <div class="panel">
+                <button *ngIf="canLoadMoreData" class="btn btn-raised btn-info" (click)="loadMoreData()">Load More Posts</button>
+                <h3 *ngIf="!canLoadMoreData">No more posts to load</h3>
             </div>
         </div>
     </div>
