@@ -4,28 +4,28 @@
         <div class="container-fluid">
             <div class="panel">
                 <h1>Text Posts</h1>
+                <h3>Total number of posts: {{ (numPosts | async)?.$value }}</h3>
             </div>
-            <div *ngFor="let post of posts | async">
+            <div class="panel">
+                <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                    <div class="form-group" style="margin-top: 1px">
+                        <input name="title" ngModel required #first="ngModel" placeholder="Post Title"
+                               class="form-control">
+                        <input name="text" ngModel required placeholder="Post Text" class="form-control">
+                        <button class="btn btn-raised btn-success">Make New Post</button>
+                    </div>
+                </form>
+                <b>{{submitText}}</b>
+            </div>
+            <div *ngFor="let post of posts | async ">
                 <div class="panel panel-danger">
-                    For previewing data as JSON
-                    {{post | json}}
-                    <h3>{{post.title}}</h3>
+                    <!--For previewing data as JSON-->
+                    <!--{{post | json}}-->
+                    <h3>{{post["title"]}}</h3>
+                    <p>{{post["text"]}}</p>
+                    <b>Posted by {{post["poster-displayname"]}} on {{formatDate(post["post-datetime"])}}</b>
                 </div>
             </div>
-            <!--<div ng-repeat="order in $ctrl.ordersArray | orderBy:'distance'">-->
-                <!--<div class="panel" style="padding: 5px; padding-left: 10px">-->
-                    <!--&lt;!&ndash;{{order}}&ndash;&gt;-->
-                    <!--<h4><b>Order #{{order["orderNum"] + 1}}</b></h4>-->
-                    <!--<div ng-repeat="item in order.items track by $index">-->
-                        <!--{{item}}-->
-                    <!--</div>-->
-                    <!--<h4>Total Price: ${{order["totalPrice"]}}</h4>-->
-                    <!--&lt;!&ndash;<h4>Distance to Store (Metres): {{order["distance"]}}</h4>&ndash;&gt;-->
-                    <!--<button class="btn btn-raised btn-success btn-xs" ng-click="$ctrl.deleteOrder(order.$id)">-->
-                        <!--Finished-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
         </div>
     </div>
 </div>

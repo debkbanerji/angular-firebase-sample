@@ -8,7 +8,6 @@ import {AuthService} from '../providers/auth.service';
     styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-
     private userDisplayName: String;
 
     constructor(public authService: AuthService) {
