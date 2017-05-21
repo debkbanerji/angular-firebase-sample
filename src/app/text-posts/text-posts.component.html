@@ -4,26 +4,31 @@
         <div class="container-fluid">
             <div class="panel">
                 <h1>Text Posts</h1>
-                <h3>Total number of posts: {{ (numPosts | async)?.$value }}</h3>
+                <!--<h3>Total number of posts: {{ (numPostsObject | async)?.$value }}</h3>-->
+                <h3>Total number of posts: {{ numPosts }}</h3>
             </div>
             <div class="panel">
                 <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-                    <div class="form-group" style="margin-top: 1px">
-                        <input name="title" ngModel required #first="ngModel" placeholder="Post Title"
-                               class="form-control">
-                        <input name="text" ngModel required placeholder="Post Text" class="form-control">
-                        <button class="btn btn-raised btn-success">Make New Post</button>
-                    </div>
+                    <!--<div class="form-group">-->
+                    <input name="title" ngModel required #first="ngModel" placeholder="Post Title"
+                           class="form-control">
+                    <input name="text" ngModel required placeholder="Post Text" class="form-control">
+                    <button class="btn btn-raised btn-success">Make New Post</button>
+                    <!--</div>-->
                 </form>
                 <b>{{submitText}}</b>
             </div>
-            <div *ngFor="let post of posts | async ">
+            <div *ngFor="let post of postsArray | async | orderBy: 'post-datetime' | reverse">
                 <div class="panel panel-danger">
                     <!--For previewing data as JSON-->
                     <!--{{post | json}}-->
-                    <h3>{{post["title"]}}</h3>
-                    <p>{{post["text"]}}</p>
-                    <b>Posted by {{post["poster-displayname"]}} on {{formatDate(post["post-datetime"])}}</b>
+                    <h3>{{post['title']}}</h3>
+                    <p>{{post['text']}}</p>
+                    <p>Posted by {{post['poster-displayname']}} on <b>{{formatDate(post['post-datetime'])}}</b></p>
+                    <!--Users can only delete posts that they have made-->
+                    <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post['$key'])"
+                            class="btn btn-sm btn-raised btn-danger">Delete Post
+                    </button>
                 </div>
             </div>
         </div>

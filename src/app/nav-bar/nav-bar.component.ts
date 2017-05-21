@@ -13,14 +13,14 @@ export class NavBarComponent implements OnInit {
     private isLoggedIn: boolean;
 
     constructor(public authService: AuthService, private router: Router, private apRef: ApplicationRef) {
-        this.authService.afAuth.auth.onAuthStateChanged((auth) => {
-            this.isLoggedIn = auth != null;
-            this.apRef.tick(); // For updating UI
-        });
     }
 
     ngOnInit() {
         // console.log(this.router.url);
+        this.authService.afAuth.auth.onAuthStateChanged((auth) => {
+            this.isLoggedIn = auth != null;
+            this.apRef.tick(); // For updating UI
+        });
     }
 
     logout() {
