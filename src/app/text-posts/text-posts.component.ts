@@ -89,6 +89,13 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 this.userUID = auth.uid;
             }
         });
+
+        window.onscroll = () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                // Reached the bottom of the page
+                this.tryToLoadMoreData();
+            }
+        };
     }
 
     private updateCanLoadState(data) {
@@ -99,7 +106,8 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         }
     }
 
-    loadMoreData(): void {
+
+    tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
             this.limit.next(this.limit.getValue() + 10);
         }
@@ -109,6 +117,9 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();
+        window.onscroll = () => {
+            // Clearing onscroll implementation (may not be necessary)
+        };
     }
 
     onSubmit(form: NgForm) {

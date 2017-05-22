@@ -34,11 +34,11 @@
                 </div>
             </div>
             <div *ngIf="canLoadMoreData" class="panel">
-                <button id="load-more-posts" class="btn btn-raised btn-info" (click)="loadMoreData()">
+                <button id="load-more-posts" class="btn btn-raised btn-info" (click)="tryToLoadMoreData()">
                     Load More Posts
                 </button>
             </div>
-            <h3 *ngIf="!canLoadMoreData">No more posts to load</h3>
+            <h3 id="no-more-posts-text" *ngIf="!canLoadMoreData">No more posts to load</h3>
         </div>
     </div>
 </div>
