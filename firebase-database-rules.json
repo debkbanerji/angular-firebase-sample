@@ -1,0 +1,17 @@
+{
+    "rules": {
+        "text-posts": {
+            "num-posts": {
+                ".read": "auth != null",
+                ".write": "auth != null"
+            },
+            "posts": {
+                ".read": "auth != null",
+                ".indexOn": "datetime",
+                "$id": {
+                    ".write": "auth !== null && (!data.exists() || data.child('poster-uid').val() === auth.uid)"
+                }
+            }
+        }
+    }
+}

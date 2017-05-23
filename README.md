@@ -21,6 +21,17 @@ export const config = {
   messagingSenderId: 'YOUR_MESSENGER_SENDER_ID_HERE'
 };
 ```
+### Publishing Rules
+The default Firebase realtime database rules are as follows:
+```
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+```
+For increased security and performance, it is recommended that you replace these rules with those defined in `firebase-database-rules.json`
 
 ## Development server
 
