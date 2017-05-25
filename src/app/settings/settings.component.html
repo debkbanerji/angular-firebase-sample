@@ -1,0 +1,24 @@
+<app-nav-bar></app-nav-bar>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="container-fluid">
+            <div class="panel">
+                <h1>Settings</h1>
+            </div>
+            <div class="panel">
+                <h3>Email: {{userEmail}}</h3>
+            </div>
+            <div class="panel">
+                <h3>Current Display Name: {{(displayNameObject | async)?.$value}}</h3>
+                <form #f="ngForm" (ngSubmit)="upDateDisplayName(f)" novalidate>
+                    <!--<div class="form-group">-->
+                    <input name="newDisplayName" ngModel required #first="ngModel" placeholder="New Display Name"
+                           class="form-control">
+                    <button class="btn btn-raised btn-success">Update Display Name</button>
+                    <!--</div>-->
+                </form>
+                <b>{{updateDisplayNameText}}</b>
+            </div>
+        </div>
+    </div>
+</div>

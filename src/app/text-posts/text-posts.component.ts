@@ -27,6 +27,8 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     private submitText: String;
     private userDisplayName: String;
     private userUID: String;
+    private displayNameObject: FirebaseObjectObservable<any>;
+    private userDataSubscription: Subscription;
 
     formatDate(millis) {
         const date = new Date(millis);
@@ -87,6 +89,12 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 // logged in
                 this.userDisplayName = auth.displayName;
                 this.userUID = auth.uid;
+                if (auth != null) {
+                    this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
+                    this.userDataSubscription = this.displayNameObject.subscribe((data) => {
+                        this.userDisplayName = data.$value;
+                    });
+                }
             }
         });
 
@@ -114,6 +122,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.userDataSubscription.unsubscribe();
         this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();

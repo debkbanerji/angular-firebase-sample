@@ -20,7 +20,7 @@ export class AppComponent {
             } else {
                 // logged in
                 // navigate to default route
-                this.router.navigate(['']);
+                // this.router.navigate(['']);
             }
         });
     }

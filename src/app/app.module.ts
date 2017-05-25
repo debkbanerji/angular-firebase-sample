@@ -17,11 +17,13 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {TextPostsComponent} from './text-posts/text-posts.component';
+import {SettingsComponent} from './settings/settings.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: '', component: HomePageComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
-    {path: 'text-posts', component: TextPostsComponent}
+    {path: 'text-posts', component: TextPostsComponent},
+    {path: 'settings', component: SettingsComponent}
 ];
 
 @NgModule({
@@ -30,7 +32,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
         LoginPageComponent,
         HomePageComponent,
         NavBarComponent,
-        TextPostsComponent
+        TextPostsComponent,
+        SettingsComponent
     ],
     imports: [
         BrowserModule,

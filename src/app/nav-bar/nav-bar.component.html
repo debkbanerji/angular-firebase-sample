@@ -21,6 +21,9 @@
                 <li class="nav-bar-fade-on-hover" (click)="navigateTo('text-posts')" *ngIf="isLoggedIn">
                     <a>Text Posts</a>
                 </li>
+                <li class="nav-bar-fade-on-hover" (click)="navigateTo('settings')" *ngIf="isLoggedIn">
+                    <a>Settings</a>
+                </li>
                 <li class="nav-bar-fade-on-hover" (click)="logout()" *ngIf="isLoggedIn">
                     <a>Sign Out</a>
                 </li>

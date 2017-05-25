@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="panel" >
                 <h1>Home</h1>
-                <h2> Hello, {{userDisplayName}}</h2>
+                <h2> Hello, {{(displayNameObject | async)?.$value}}</h2>
             </div>
         </div>
     </div>
