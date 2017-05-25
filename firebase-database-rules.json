@@ -12,6 +12,12 @@
                     ".write": "auth !== null && (!data.exists() || data.child('poster-uid').val() === auth.uid)"
                 }
             }
+        },
+        "user-profiles": {
+            "$id": {
+                ".read": "auth !== null",
+                ".write": "auth !== null && (!data.exists() || data.child('uid').val() === auth.uid)"
+            }
         }
     }
 }
