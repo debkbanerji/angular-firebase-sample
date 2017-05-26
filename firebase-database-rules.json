@@ -20,9 +20,13 @@
             }
         },
         "friend-lists": {
-            "$id": {
-                ".read": "auth !== null",
-                ".write": "auth !== null && (!data.exists() || data.child('uid').val() === auth.uid)"
+            "$userID": {
+                ".indexOn": "last-interacted",
+                ".read": "auth !== null && auth.uid === $userID",
+                "$friendID": {
+                    ".read": "auth !== null && (auth.uid === $userID || auth.uid === $friendID)",
+                    ".write": "auth !== null && (!data.exists() || (auth.uid === $userID || auth.uid === $friendID))"
+                }
             }
         }
     }

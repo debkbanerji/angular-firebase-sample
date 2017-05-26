@@ -23,11 +23,11 @@ export class NavBarComponent implements OnInit {
         });
     }
 
-    logout() {
+    private logout() {
         this.authService.logout();
     }
 
-    navigateTo(route) {
+    private navigateTo(route) {
         this.router.navigate([route]);
         // console.log(this.router.url);
     }

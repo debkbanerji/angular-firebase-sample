@@ -3,6 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../providers/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-friends',
@@ -20,7 +21,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
     private canLoadMoreData: boolean;
 
 
-    constructor(public authService: AuthService, private db: AngularFireDatabase) {
+    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
 
     ngOnInit() {
@@ -32,7 +33,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
                 // asyncronously find the last item in the list
                 this.lastKeySubscription = this.db.list('/friend-lists/' + auth.uid, {
                     query: {
-                        orderByChild: 'datetime',
+                        orderByChild: 'last-interacted',
                         limitToFirst: 1
                     }
                 }).subscribe((data) => {
@@ -55,6 +56,13 @@ export class FriendsComponent implements OnInit, OnDestroy {
                 this.friendListArraySubscription = this.friendListArray.subscribe((data) => {
                     this.updateCanLoadState(data);
                 });
+
+                window.onscroll = () => {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        // Reached the bottom of the page
+                        this.tryToLoadMoreData();
+                    }
+                };
             }
         });
     }
@@ -73,8 +81,16 @@ export class FriendsComponent implements OnInit, OnDestroy {
         }
     }
 
+    private navigateTo(route) {
+        this.router.navigate([route]);
+        // console.log(this.router.url);
+    }
+
     ngOnDestroy(): void {
         this.friendListArraySubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
+        window.onscroll = () => {
+            // Clearing onscroll implementation (may not be necessary)
+        };
     }
 }

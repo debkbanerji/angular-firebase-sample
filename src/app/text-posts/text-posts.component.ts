@@ -27,8 +27,8 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     private submitText: String;
     private userDisplayName: String;
     private userUID: String;
-    private displayNameObject: FirebaseObjectObservable<any>;
-    private userDataSubscription: Subscription;
+    // private displayNameObject: FirebaseObjectObservable<any>;
+    // private userDataSubscription: Subscription;
 
     formatDate(millis) {
         const date = new Date(millis);
@@ -121,17 +121,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        // this.userDataSubscription.unsubscribe();
-        this.numPostsSubscription.unsubscribe();
-        this.lastKeySubscription.unsubscribe();
-        this.postsArraySubscription.unsubscribe();
-        window.onscroll = () => {
-            // Clearing onscroll implementation (may not be necessary)
-        };
-    }
-
-    onSubmit(form: NgForm) {
+    private onSubmit(form: NgForm) {
         if (form.valid) {
             this.postsArray.push(
                 {
@@ -149,8 +139,18 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         }
     }
 
-    removePost(key) {
+    private removePost(key) {
         this.postsArray.remove(key);
         this.numPostsObject.set(this.numPosts - 1);
+    }
+
+    ngOnDestroy() {
+        // this.userDataSubscription.unsubscribe();
+        this.numPostsSubscription.unsubscribe();
+        this.lastKeySubscription.unsubscribe();
+        this.postsArraySubscription.unsubscribe();
+        window.onscroll = () => {
+            // Clearing onscroll implementation (may not be necessary)
+        };
     }
 }
