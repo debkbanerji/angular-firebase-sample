@@ -9,15 +9,15 @@
                 <h3>Email: {{userEmail}}</h3>
             </div>
             <div class="panel">
-                <h3>Current Display Name: {{(displayNameObject | async)?.$value}}</h3>
-                <form #f="ngForm" (ngSubmit)="upDateDisplayName(f)" novalidate>
-                    <!--<div class="form-group">-->
-                    <input name="newDisplayName" ngModel required #first="ngModel" placeholder="New Display Name"
-                           class="form-control">
-                    <button class="btn btn-raised btn-success">Update Display Name</button>
-                    <!--</div>-->
-                </form>
-                <b>{{updateDisplayNameText}}</b>
+                <h3>Display Name: {{userDisplayName}}</h3>
+                <!--<form #f="ngForm" (ngSubmit)="upDateDisplayName(f)" novalidate>-->
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--<input name="newDisplayName" ngModel required #first="ngModel" placeholder="New Display Name"-->
+                           <!--class="form-control">-->
+                    <!--<button class="btn btn-raised btn-success">Update Display Name</button>-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</form>-->
+                <!--<b>{{updateDisplayNameText}}</b>-->
             </div>
         </div>
     </div>

@@ -18,6 +18,12 @@
                 ".read": "auth !== null",
                 ".write": "auth !== null && (!data.exists() || data.child('uid').val() === auth.uid)"
             }
+        },
+        "friend-lists": {
+            "$id": {
+                ".read": "auth !== null",
+                ".write": "auth !== null && (!data.exists() || data.child('uid').val() === auth.uid)"
+            }
         }
     }
 }

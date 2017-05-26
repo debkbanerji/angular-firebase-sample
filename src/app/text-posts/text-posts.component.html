@@ -21,7 +21,7 @@
                 <b>{{submitText}}</b>
             </div>
             <div *ngFor="let post of postsArray | async | orderBy: 'datetime' | reverse">
-                <div class="panel panel-danger">
+                <div class="panel">
                     <!--For previewing data as JSON-->
                     <!--{{post | json}}-->
                     <h3>{{post['title']}}</h3>

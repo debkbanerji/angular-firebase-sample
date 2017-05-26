@@ -18,13 +18,15 @@ import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {TextPostsComponent} from './text-posts/text-posts.component';
 import {SettingsComponent} from './settings/settings.component';
+import { FriendsComponent } from './friends/friends.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: '', component: HomePageComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
     {path: 'text-posts', component: TextPostsComponent},
-    {path: 'settings', component: SettingsComponent}
-];
+    {path: 'settings', component: SettingsComponent},
+    {path: 'friends', component: FriendsComponent}
+    ];
 
 @NgModule({
     declarations: [
@@ -33,7 +35,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
         HomePageComponent,
         NavBarComponent,
         TextPostsComponent,
-        SettingsComponent
+        SettingsComponent,
+        FriendsComponent
     ],
     imports: [
         BrowserModule,

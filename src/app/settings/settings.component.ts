@@ -12,9 +12,10 @@ import {AuthService} from '../providers/auth.service';
 })
 export class SettingsComponent implements OnInit {
     private userEmail: String;
+    private userDisplayName: string;
 
-    private updateDisplayNameText: string;
-    private displayNameObject: FirebaseObjectObservable<any>;
+    // private updateDisplayNameText: string;
+    // private displayNameObject: FirebaseObjectObservable<any>;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase) {
     }
@@ -23,19 +24,20 @@ export class SettingsComponent implements OnInit {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
                 this.userEmail = auth.email;
-                this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
+                this.userDisplayName = auth.displayName;
+                // this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
             }
         });
     }
 
-    upDateDisplayName(form: NgForm) {
-        if (form.valid) {
-            this.displayNameObject.set(form.value.newDisplayName);
-            form.resetForm();
-            this.updateDisplayNameText = 'Successfully updated display name';
-        } else {
-            this.updateDisplayNameText = 'Please fill out all the required data';
-        }
-    }
+    // upDateDisplayName(form: NgForm) {
+    //     if (form.valid) {
+    //         this.displayNameObject.set(form.value.newDisplayName);
+    //         form.resetForm();
+    //         this.updateDisplayNameText = 'Successfully updated display name';
+    //     } else {
+    //         this.updateDisplayNameText = 'Please fill out all the required data';
+    //     }
+    // }
 
 }

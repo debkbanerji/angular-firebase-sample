@@ -89,12 +89,12 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 // logged in
                 this.userDisplayName = auth.displayName;
                 this.userUID = auth.uid;
-                if (auth != null) {
-                    this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
-                    this.userDataSubscription = this.displayNameObject.subscribe((data) => {
-                        this.userDisplayName = data.$value;
-                    });
-                }
+                // if (auth != null) {
+                //     this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
+                //     this.userDataSubscription = this.displayNameObject.subscribe((data) => {
+                //         this.userDisplayName = data.$value;
+                //     });
+                // }
             }
         });
 
@@ -115,14 +115,14 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     }
 
 
-    tryToLoadMoreData(): void {
+    private tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
             this.limit.next(this.limit.getValue() + 10);
         }
     }
 
     ngOnDestroy() {
-        this.userDataSubscription.unsubscribe();
+        // this.userDataSubscription.unsubscribe();
         this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();

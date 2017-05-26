@@ -1,0 +1,16 @@
+.panel {
+    padding: 5px;
+    padding-left: 10px
+}
+
+#load-more-friends {
+    width: 100%;
+}
+
+#no-more-friends-text {
+    padding: 5px;
+    padding-left: 10px}
+
+.btn {
+    width: 100%;
+}
