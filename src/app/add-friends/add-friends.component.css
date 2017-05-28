@@ -1,0 +1,15 @@
+.panel {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px
+}
+
+#search-text {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px
+}
+
+.btn-sm {
+    width: 100%;
+}
