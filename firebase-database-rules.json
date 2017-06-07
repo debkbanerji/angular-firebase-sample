@@ -15,6 +15,7 @@
         },
         "user-profiles": {
             ".read": "auth !== null",
+            ".indexOn": "email",
             "$id": {
                 ".read": "auth !== null",
                 ".write": "auth !== null && (!data.exists() || data.child('uid').val() === auth.uid)"
@@ -25,7 +26,22 @@
                 ".indexOn": "last-interacted",
                 ".read": "auth !== null && auth.uid === $userID",
                 "$friendID": {
-                    // Should the friend have access to this? - maybe only read access
+                    ".read": "auth !== null && (auth.uid === $userID)",
+                    ".write": "auth !== null && (!data.exists() || (auth.uid === $userID))"
+                }
+            }
+        },
+        "chats": {
+            "$chatID": {
+                ".read": "!data.exists() || (auth !==null  && (auth.uid === data.child('uid1').val() || auth.uid === data.child('uid2').val()))",
+                ".write": "!data.exists() || (auth !==null  && (auth.uid === data.child('uid1').val() || auth.uid === data.child('uid2').val()))"
+            }
+        },
+        "friend-requests": {
+            "$userID": {
+                ".indexOn": "last-interacted",
+                ".read": "auth !== null && auth.uid === $userID",
+                "$friendID": {
                     ".read": "auth !== null && (auth.uid === $userID || auth.uid === $friendID)",
                     ".write": "auth !== null && (!data.exists() || (auth.uid === $userID || auth.uid === $friendID))"
                 }
