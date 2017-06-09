@@ -32,6 +32,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     formatDate(millis) {
         const date = new Date(millis);
+        // date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
         return date.toLocaleString();
     }
 
@@ -123,13 +124,19 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     private onSubmit(form: NgForm) {
         if (form.valid) {
+            let currDate: Date;
+            currDate = new Date();
+            currDate.setMilliseconds(Date.now());
+            // console.log(currDate);
+            // console.log(currDate.getTimezoneOffset());
+            // currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
             this.postsArray.push(
                 {
                     'title': form.value.title,
                     'text': form.value.text,
                     'poster-displayname': this.userDisplayName,
                     'poster-uid': this.userUID,
-                    'datetime': Date.now()
+                    'datetime': currDate.getTime() // For internationalization purposes
                 });
             form.resetForm();
             this.submitText = 'Successfully made post';

@@ -65,7 +65,6 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                     this.searchText = 'Friend request already sent';
                     console.log(data);
                 } else {
-                    // TODO: Send Friend Request
                     this.searchText = 'Friend request sent';
                     const chatKey = this.makeChat(friendUID, this.userUID);
 
@@ -96,9 +95,18 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
             uid2 = temp;
         }
         let chatKey;
+        const currDate = (new Date).getUTCDate();
         chatKey = this.db.list('/chats').push({
             uid1: uid1,
-            uid2: uid2
+            uid2: uid2,
+            messages: {
+                message1: {
+                    date: currDate,
+                    poster: 'Bot',
+                    text: 'You can send messages now, but your friend won\'t be able to see' +
+                    ' your messages before accepting your friend request'
+                }
+            }
         }).key;
         // console.log(chatKey);
         return chatKey;
