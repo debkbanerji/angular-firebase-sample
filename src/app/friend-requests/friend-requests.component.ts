@@ -1,15 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../providers/auth.service';
+import {Router} from '@angular/router';
+
+
 
 @Component({
-  selector: 'app-friend-requests',
-  templateUrl: './friend-requests.component.html',
-  styleUrls: ['./friend-requests.component.css']
+    selector: 'app-friend-requests',
+    templateUrl: './friend-requests.component.html',
+    styleUrls: ['./friend-requests.component.css']
 })
-export class FriendRequestsComponent implements OnInit {
+export class FriendRequestsComponent implements OnInit, OnDestroy {
+    ngOnDestroy(): void {
+    }
 
-  constructor() { }
+    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
+    }
 
-  ngOnInit() {
-  }
+    private navigateTo(route) {
+        this.router.navigate([route]);
+    }
+
+    ngOnInit() {
+    }
 
 }

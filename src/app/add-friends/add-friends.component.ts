@@ -3,6 +3,7 @@ import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} f
 import {AuthService} from '../providers/auth.service';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-add-friends',
@@ -19,7 +20,7 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
     private friendProfileObject: FirebaseObjectObservable<any>;
     private friendProfileSubscription: Subscription;
 
-    constructor(public authService: AuthService, private db: AngularFireDatabase) {
+    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
 
     ngOnInit() {
@@ -110,6 +111,10 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
         }).key;
         // console.log(chatKey);
         return chatKey;
+    }
+
+    private navigateTo(route) {
+        this.router.navigate([route]);
     }
 
     ngOnDestroy(): void {

@@ -83,7 +83,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     private navigateTo(route) {
         this.router.navigate([route]);
-        // console.log(this.router.url);
     }
 
     ngOnDestroy(): void {

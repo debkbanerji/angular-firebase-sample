@@ -31,7 +31,7 @@
                 <div class="panel">
                     <h2>{{friend['display-name']}}</h2>
                     <b>Email: {{friend['email']}}</b>
-                    <button class="btn btn-raised btn-success btn-sm">Open Chat</button>
+                    <button class="btn btn-raised btn-success btn-sm" (click)="openChat(friend['uid'])">Open Chat</button>
                 </div>
             </div>
             <div *ngIf="canLoadMoreData" class="panel">
@@ -39,7 +39,7 @@
                     Show More Friends
                 </button>
             </div>
-            <h3 id="no-more-posts-text" *ngIf="!canLoadMoreData">Showing all friends</h3>
+            <h3 id="no-more-posts-text" *ngIf="!canLoadMoreData">Showing All Friends</h3>
         </div>
     </div>
 </div>
