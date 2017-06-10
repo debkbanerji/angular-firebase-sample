@@ -6,15 +6,13 @@ import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 
 
-
 @Component({
     selector: 'app-friend-requests',
     templateUrl: './friend-requests.component.html',
     styleUrls: ['./friend-requests.component.css']
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
-    ngOnDestroy(): void {
-    }
+
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
@@ -24,6 +22,9 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy(): void {
     }
 
 }

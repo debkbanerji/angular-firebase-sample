@@ -75,7 +75,7 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                         friendData['chat-key'] = chatKey;
                         let friendRequestObject;
                         this.friendObject.set(friendData);
-                        friendData['accepted'] = false;
+                        friendData['accepted'] = false; // Not really necessary - Firebase stores this as null
                         friendRequestObject = this.db.object('friend-requests/' + this.userUID + '/' + friendUID);
                         friendRequestObject.set(friendData);
 

@@ -32,7 +32,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     formatDate(millis) {
         const date = new Date(millis);
-        // date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+        date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
         return date.toLocaleString();
     }
 
@@ -105,6 +105,11 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 this.tryToLoadMoreData();
             }
         };
+        // // Use this code to debug time zone differences
+        // console.log((new Date()).getTimezoneOffset());
+        // Date.prototype.getTimezoneOffset = function () {
+        //     return -330;
+        // };
     }
 
     private updateCanLoadState(data) {
@@ -126,10 +131,10 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         if (form.valid) {
             let currDate: Date;
             currDate = new Date();
-            currDate.setMilliseconds(Date.now());
+            // currDate.setMilliseconds(Date.now());
             // console.log(currDate);
             // console.log(currDate.getTimezoneOffset());
-            // currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
+            currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
             this.postsArray.push(
                 {
                     'title': form.value.title,
