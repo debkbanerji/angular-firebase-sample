@@ -25,6 +25,7 @@
             "$userID": {
                 ".indexOn": "last-interacted",
                 ".read": "auth !== null && auth.uid === $userID",
+                ".write": "auth !== null && auth.uid === $userID",
                 "$friendID": {
                     ".read": "auth !== null && (auth.uid === $userID)",
                     ".write": "auth !== null && (!data.exists() || (auth.uid === $userID))"
@@ -39,8 +40,8 @@
         },
         "friend-requests": {
             "$userID": {
-                ".indexOn": "last-interacted",
-                ".read": "auth !== null && auth.uid === $userID",
+                ".indexOn": "time-sent",
+                ".read": "auth !== null",
                 "$friendID": {
                     ".read": "auth !== null && (auth.uid === $userID || auth.uid === $friendID)",
                     ".write": "auth !== null && (!data.exists() || (auth.uid === $userID || auth.uid === $friendID))"

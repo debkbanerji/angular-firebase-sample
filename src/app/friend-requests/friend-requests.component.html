@@ -27,7 +27,7 @@
     </div>
     <div class="col-xs-12">
         <div class="container-fluid">
-            <div *ngFor="let request of friendRequestArray | async | orderBy: 'last-interacted' | reverse">
+            <div *ngFor="let request of requestsArray | async | orderBy: 'time-sent' | reverse">
                 <div class="panel">
                     <h2>{{request['display-name']}}</h2>
                     <b>Email: {{request['email']}}</b>

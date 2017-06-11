@@ -15,10 +15,14 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
     private searchResults: FirebaseListObservable<any[]>;
     private searchSubscription: Subscription;
     private userUID: string;
+    private userDisplayName: string;
+    private userEmail: string;
     private friendObject: FirebaseObjectObservable<any>;
     private checkFriendSubscription: Subscription;
     private friendProfileObject: FirebaseObjectObservable<any>;
     private friendProfileSubscription: Subscription;
+    private otherFriendRequestObject: FirebaseObjectObservable<any>;
+    private otherFriendRequestSubscription: Subscription;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
@@ -31,6 +35,8 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
             } else {
                 // logged in
                 this.userUID = auth.uid;
+                this.userEmail = auth.email;
+                this.userDisplayName = auth.displayName;
             }
         });
     }
@@ -56,7 +62,6 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
     }
 
     private sendFriendRequest(friendUID) {
-        console.log(friendUID);
         if (this.userUID === friendUID) {
             this.searchText = 'You can\'t send a friend request to yourself';
         } else {
@@ -64,23 +69,41 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
             this.checkFriendSubscription = this.friendObject.subscribe((data) => {
                 if (data.$value !== null) {
                     this.searchText = 'Friend request already sent';
-                    console.log(data);
                 } else {
-                    this.searchText = 'Friend request sent';
-                    const chatKey = this.makeChat(friendUID, this.userUID);
+                    // Make sure friend hasn't already sent the user a friend request
+                    this.otherFriendRequestObject = this.db.object('friend-requests/' + this.userUID + '/' + friendUID);
+                    this.otherFriendRequestSubscription = this.otherFriendRequestObject.subscribe((otherRequest) => {
+                        if (otherRequest.$value !== null) {
+                            console.log(otherRequest);
+                            this.searchText = otherRequest['display-name'] + ' has already sent you a friend request';
+                        } else {
+                            this.searchText = 'Friend request sent';
+                            const chatKey = this.makeChat(friendUID, this.userUID);
 
-                    this.checkFriendSubscription.unsubscribe();
-                    this.friendProfileObject = this.db.object('user-profiles/' + friendUID);
-                    this.friendProfileSubscription = this.friendProfileObject.subscribe((friendData) => {
-                        friendData['chat-key'] = chatKey;
-                        let friendRequestObject;
-                        this.friendObject.set(friendData);
-                        friendData['accepted'] = false; // Not really necessary - Firebase stores this as null
-                        friendRequestObject = this.db.object('friend-requests/' + this.userUID + '/' + friendUID);
-                        friendRequestObject.set(friendData);
+                            this.checkFriendSubscription.unsubscribe();
+                            this.friendProfileObject = this.db.object('user-profiles/' + friendUID);
+                            this.friendProfileSubscription = this.friendProfileObject.subscribe((friendData) => {
+                                let currDate: Date;
+                                currDate = new Date();
+                                currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
+                                friendData['last-interacted'] = currDate.getTime();
+                                friendData['chat-key'] = chatKey;
+                                let friendRequestObject;
+                                this.friendObject.set(friendData);
+                                friendRequestObject = this.db.object('friend-requests/' + friendUID + '/' + this.userUID);
+                                friendRequestObject.set({
+                                    'uid': this.userUID,
+                                    'email' : this.userEmail,
+                                    'display-name': this.userDisplayName,
+                                    'time-sent': currDate.getTime(),
+                                    'chat-key': chatKey,
+                                    'accepted': false // Not really necessary to define here as Firebase stores this as null
+                                });
 
-                        this.friendProfileSubscription.unsubscribe();
-                        this.checkFriendSubscription.unsubscribe();
+                                this.friendProfileSubscription.unsubscribe();
+                                this.checkFriendSubscription.unsubscribe();
+                            });
+                        }
                     });
                 }
             });
@@ -109,7 +132,6 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                 }
             }
         }).key;
-        // console.log(chatKey);
         return chatKey;
     }
 
@@ -126,6 +148,9 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
         }
         if (this.friendProfileSubscription) {
             this.friendProfileSubscription.unsubscribe();
+        }
+        if (this.otherFriendRequestSubscription) {
+            this.otherFriendRequestSubscription.unsubscribe();
         }
     }
 }

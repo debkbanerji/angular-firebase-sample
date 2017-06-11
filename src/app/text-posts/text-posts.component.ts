@@ -13,9 +13,9 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
     styleUrls: ['./text-posts.component.css']
 })
 export class TextPostsComponent implements OnInit, OnDestroy {
-    private numPostsSubscription: Subscription;
-    private numPostsObject: FirebaseObjectObservable<any>;
-    private numPosts: number;
+    // private numPostsSubscription: Subscription;
+    // private numPostsObject: FirebaseObjectObservable<any>;
+    // private numPosts: number;
 
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(10); // import 'rxjs/BehaviorSubject';
     private postsArray: FirebaseListObservable<any>;
@@ -43,14 +43,14 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.submitText = '';
         const feedLocation = '/text-posts';
-        this.numPostsObject = this.db.object(feedLocation + '/num-posts', {preserveSnapshot: true});
-        this.numPostsSubscription = this.numPostsObject.subscribe(snapshot => {
-            let val = snapshot.val();
-            if (!val) {
-                val = 0;
-            }
-            this.numPosts = val;
-        });
+        // this.numPostsObject = this.db.object(feedLocation + '/num-posts', {preserveSnapshot: true});
+        // this.numPostsSubscription = this.numPostsObject.subscribe(snapshot => {
+        //     let val = snapshot.val();
+        //     if (!val) {
+        //         val = 0;
+        //     }
+        //     this.numPosts = val;
+        // });
 
         // asyncronously find the last item in the list
         this.lastKeySubscription = this.db.list(feedLocation + '/posts', {
@@ -131,9 +131,6 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         if (form.valid) {
             let currDate: Date;
             currDate = new Date();
-            // currDate.setMilliseconds(Date.now());
-            // console.log(currDate);
-            // console.log(currDate.getTimezoneOffset());
             currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
             this.postsArray.push(
                 {
@@ -145,7 +142,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 });
             form.resetForm();
             this.submitText = 'Successfully made post';
-            this.numPostsObject.set(this.numPosts + 1);
+            // this.numPostsObject.set(this.numPosts + 1);
         } else {
             this.submitText = 'Please fill out all the required data';
         }
@@ -153,12 +150,12 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     private removePost(key) {
         this.postsArray.remove(key);
-        this.numPostsObject.set(this.numPosts - 1);
+        // this.numPostsObject.set(this.numPosts - 1);
     }
 
     ngOnDestroy() {
         // this.userDataSubscription.unsubscribe();
-        this.numPostsSubscription.unsubscribe();
+        // this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();
         window.onscroll = () => {

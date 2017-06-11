@@ -27,9 +27,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
-                // this.friendListArray = this.db.list('/friend-lists/' + auth.uid);
-
-
                 // asyncronously find the last item in the list
                 this.lastKeySubscription = this.db.list('/friend-lists/' + auth.uid, {
                     query: {
