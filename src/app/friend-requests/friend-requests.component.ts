@@ -13,7 +13,8 @@ import {Router} from '@angular/router';
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
 
-    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(10); // import 'rxjs/BehaviorSubject';
+    private PAGE_SIZE = 10;
+    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     private requestsArray: FirebaseListObservable<any>;
     private requestsArraySubscription: Subscription;
     private lastKey: String;
@@ -47,7 +48,7 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
                 this.requestsArray = this.db.list('/friend-requests/' + auth.uid, {
                     query: {
                         orderByChild: 'time-sent',
-                        limitToLast: this.limit // Start at 10 newest items
+                        limitToLast: this.limit // Start at this.PAGE_SIZE newest items
                     }
                 });
 
@@ -56,12 +57,13 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
                     this.updateCanLoadState(data);
                 });
 
-                window.onscroll = () => {
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        // Reached the bottom of the page
-                        this.tryToLoadMoreData();
-                    }
-                };
+                // // automatically try to load more data when scrolling down
+                // window.onscroll = () => {
+                //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                //         // Reached the bottom of the page
+                //         this.tryToLoadMoreData();
+                //     }
+                // };
             }
         });
 
@@ -78,12 +80,11 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
 
     private tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
-            this.limit.next(this.limit.getValue() + 10);
+            this.limit.next(this.limit.getValue() + this.PAGE_SIZE);
         }
     }
 
     private acceptRequest(request): void {
-        console.log(request);
         // Add Friend
         let currDate: Date;
         currDate = new Date();
@@ -111,9 +112,9 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.requestsArraySubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
-        window.onscroll = () => {
-            // Clearing onscroll implementation (may not be necessary)
-        };
+        // window.onscroll = () => {
+        //     // Clearing onscroll implementation (may not be necessary)
+        // };
     }
 
 }

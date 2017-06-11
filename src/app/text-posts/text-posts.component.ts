@@ -17,7 +17,8 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     // private numPostsObject: FirebaseObjectObservable<any>;
     // private numPosts: number;
 
-    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(10); // import 'rxjs/BehaviorSubject';
+    private PAGE_SIZE = 2;
+    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     private postsArray: FirebaseListObservable<any>;
     private postsArraySubscription: Subscription;
     private lastKey: String;
@@ -71,7 +72,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         this.postsArray = this.db.list(feedLocation + '/posts', {
             query: {
                 orderByChild: 'datetime',
-                limitToLast: this.limit // Start at 10 newest items
+                limitToLast: this.limit // Start at this.PAGE_SIZE newest items
             }
         });
 
@@ -99,12 +100,14 @@ export class TextPostsComponent implements OnInit, OnDestroy {
             }
         });
 
-        window.onscroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                // Reached the bottom of the page
-                this.tryToLoadMoreData();
-            }
-        };
+        // // automatically try to load more data when scrolling down
+        // window.onscroll = () => {
+        //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        //         // Reached the bottom of the page
+        //         this.tryToLoadMoreData();
+        //     }
+        // };
+
         // // Use this code to debug time zone differences
         // console.log((new Date()).getTimezoneOffset());
         // Date.prototype.getTimezoneOffset = function () {
@@ -123,7 +126,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     private tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
-            this.limit.next(this.limit.getValue() + 10);
+            this.limit.next(this.limit.getValue() + this.PAGE_SIZE);
         }
     }
 
@@ -158,8 +161,8 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         // this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();
-        window.onscroll = () => {
-            // Clearing onscroll implementation (may not be necessary)
-        };
+        // window.onscroll = () => {
+        //     // Clearing onscroll implementation (may not be necessary)
+        // };
     }
 }

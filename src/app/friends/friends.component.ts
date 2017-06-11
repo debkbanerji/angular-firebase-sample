@@ -12,7 +12,8 @@ import {Router} from '@angular/router';
 })
 export class FriendsComponent implements OnInit, OnDestroy {
 
-    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(10); // import 'rxjs/BehaviorSubject';
+    private PAGE_SIZE = 10;
+    private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     private friendListArray: FirebaseListObservable<any>;
     private friendListArraySubscription: Subscription;
 
@@ -45,7 +46,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
                 this.friendListArray = this.db.list('/friend-lists/' + auth.uid, {
                     query: {
                         orderByChild: 'last-interacted',
-                        limitToLast: this.limit // Start at 10 newest items
+                        limitToLast: this.limit // Start at this.PAGE_SIZE newest items
                     }
                 });
 
@@ -54,12 +55,13 @@ export class FriendsComponent implements OnInit, OnDestroy {
                     this.updateCanLoadState(data);
                 });
 
-                window.onscroll = () => {
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        // Reached the bottom of the page
-                        this.tryToLoadMoreData();
-                    }
-                };
+                // // automatically try to load more data when scrolling down
+                // window.onscroll = () => {
+                //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                //         // Reached the bottom of the page
+                //         this.tryToLoadMoreData();
+                //     }
+                // };
             }
         });
     }
@@ -74,7 +76,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     private tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
-            this.limit.next(this.limit.getValue() + 10);
+            this.limit.next(this.limit.getValue() + this.PAGE_SIZE);
         }
     }
 
@@ -85,8 +87,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.friendListArraySubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
-        window.onscroll = () => {
-            // Clearing onscroll implementation (may not be necessary)
-        };
+        // window.onscroll = () => {
+        //     // Clearing onscroll implementation (may not be necessary)
+        // };
     }
 }

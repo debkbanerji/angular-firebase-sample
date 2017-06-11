@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./add-friends.component.css']
 })
 export class AddFriendsComponent implements OnInit, OnDestroy {
+
     private searchText: string;
     private searchResults: FirebaseListObservable<any[]>;
     private searchSubscription: Subscription;
@@ -74,7 +75,6 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                     this.otherFriendRequestObject = this.db.object('friend-requests/' + this.userUID + '/' + friendUID);
                     this.otherFriendRequestSubscription = this.otherFriendRequestObject.subscribe((otherRequest) => {
                         if (otherRequest.$value !== null) {
-                            console.log(otherRequest);
                             this.searchText = otherRequest['display-name'] + ' has already sent you a friend request';
                         } else {
                             this.searchText = 'Friend request sent';
@@ -93,7 +93,7 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                                 friendRequestObject = this.db.object('friend-requests/' + friendUID + '/' + this.userUID);
                                 friendRequestObject.set({
                                     'uid': this.userUID,
-                                    'email' : this.userEmail,
+                                    'email': this.userEmail,
                                     'display-name': this.userDisplayName,
                                     'time-sent': currDate.getTime(),
                                     'chat-key': chatKey,
