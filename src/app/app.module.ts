@@ -21,6 +21,7 @@ import {SettingsComponent} from './settings/settings.component';
 import { FriendsComponent } from './friends/friends.component';
 import { AddFriendsComponent } from './add-friends/add-friends.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: '', component: HomePageComponent}, // Default route
@@ -29,7 +30,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: 'settings', component: SettingsComponent},
     {path: 'friends', component: FriendsComponent},
     {path: 'add-friends', component: AddFriendsComponent},
-    {path: 'friend-requests', component: FriendRequestsComponent}
+    {path: 'friend-requests', component: FriendRequestsComponent},
+    {path: 'chat/:chat-key', component: ChatComponent}
     ];
 
 @NgModule({
@@ -42,7 +44,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
         SettingsComponent,
         FriendsComponent,
         AddFriendsComponent,
-        FriendRequestsComponent
+        FriendRequestsComponent,
+        ChatComponent
     ],
     imports: [
         BrowserModule,

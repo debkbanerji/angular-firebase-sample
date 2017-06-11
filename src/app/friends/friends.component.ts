@@ -21,7 +21,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
     private lastKey: string;
     private canLoadMoreData: boolean;
 
-
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
 
@@ -82,6 +81,10 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     private navigateTo(route) {
         this.router.navigate([route]);
+    }
+
+    private openChat(chatKey) {
+        this.router.navigate(['chat', chatKey]);
     }
 
     ngOnDestroy(): void {
