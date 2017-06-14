@@ -1,24 +1,32 @@
 <app-nav-bar></app-nav-bar>
 <div class="row">
-    <div class="col-xs-12">
+    <div *ngIf="friendDisplayName" class="col-xs-12">
         <div class="container-fluid">
             <div class="panel">
-                <h3>Chat</h3>
+                <h4>{{friendDisplayName}}</h4>
             </div>
         </div>
     </div>
     <div class="col-xs-12">
         <div class="container-fluid">
-            <div *ngIf="!deleteOldMessages">
-                <button *ngIf="canLoadMoreData" id="load-more-messages" class="btn btn-info" (click)="tryToLoadMoreData()">
-                    Show More Messages
-                </button>
-                <h4 id="no-more-messages-text" *ngIf="!canLoadMoreData">Showing All Messages</h4>
-            </div>
-            <div *ngFor="let message of messageListArray | async | orderBy: 'post-time'">
-                <div class="">
-                    <p><strong class="panel poster-label">{{message['poster-display-name']}}</strong> {{message['text']}}</p>
-                    <!--<p>Posted by {{message['poster']}} on <b>{{formatDate(message['post-time'])}}</b></p>-->
+            <div class="panel">
+                <div *ngIf="!deleteOldMessages">
+                    <button *ngIf="canLoadMoreData" id="load-more-messages" class="btn btn-info"
+                            (click)="tryToLoadMoreData()">
+                        Show More Messages
+                    </button>
+                    <h4 id="no-more-messages-text" *ngIf="!canLoadMoreData">Showing All Messages</h4>
+                </div>
+                <div *ngFor="let message of messageListArray | async | orderBy: 'post-time'">
+                    <div class="">
+                        <!--<p><strong class="panel poster-label">{{message['poster-display-name']}}</strong> {{message['text']}}</p>-->
+                        <div *ngIf="message['poster-uid'] === userUID">
+                            <p>{{message['text']}}</p>
+                        </div>
+                        <div *ngIf="!(message['poster-uid'] === userUID)">
+                            <b>{{message['text']}}</b>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../providers/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,8 +13,14 @@ import {NgForm} from '@angular/forms';
 export class ChatComponent implements OnInit, OnDestroy {
     private userUID: string;
     private friendUID: string;
+    private userDisplayName: string;
+    private friendDisplayName: string;
     private chatKey: string;
     private paramSubscription: Subscription;
+
+    private uid1Subscription: Subscription;
+    private uid2Subscription: Subscription;
+    private friendSubscription: Subscription;
 
     private deleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
     private PAGE_SIZE = 20;
@@ -25,7 +31,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     private lastKeySubscription: Subscription;
     private lastKey: string;
     private canLoadMoreData: boolean;
-    private userDisplayName: string;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute) {
     }
@@ -41,40 +46,39 @@ export class ChatComponent implements OnInit, OnDestroy {
             if (auth != null) {
                 this.userUID = auth.uid;
                 this.userDisplayName = auth.displayName;
+                this.paramSubscription = this.route.params.subscribe(params => {
+                    this.chatKey = params['chat-key'];
+
+                    this.findFriendDisplayName();
+
+                    // asyncronously find the last item in the list
+                    this.lastKeySubscription = this.db.list('chats/' + this.chatKey + '/messages', {
+                        query: {
+                            orderByChild: 'post-time',
+                            limitToFirst: 1
+                        }
+                    }).subscribe((data) => {
+                        // Found the last key
+                        if (data.length > 0) {
+                            this.lastKey = data[0].$key;
+                        } else {
+                            this.lastKey = '';
+                        }
+                    });
+
+                    this.messageListArray = this.db.list('chats/' + this.chatKey + '/messages', {
+                        query: {
+                            orderByChild: 'post-time',
+                            limitToLast: this.limit // Start at this.PAGE_SIZE newest items
+                        }
+                    });
+
+                    this.messageListArraySubscription = this.messageListArray.subscribe((data) => {
+                        this.updateCanLoadState(data);
+                    });
+
+                });
             }
-        });
-
-
-        this.paramSubscription = this.route.params.subscribe(params => {
-            this.chatKey = params['chat-key'];
-            console.log(this.chatKey);
-
-            // asyncronously find the last item in the list
-            this.lastKeySubscription = this.db.list('chats/' + this.chatKey + '/messages', {
-                query: {
-                    orderByChild: 'post-time',
-                    limitToFirst: 1
-                }
-            }).subscribe((data) => {
-                // Found the last key
-                if (data.length > 0) {
-                    this.lastKey = data[0].$key;
-                } else {
-                    this.lastKey = '';
-                }
-            });
-
-            this.messageListArray = this.db.list('chats/' + this.chatKey + '/messages', {
-                query: {
-                    orderByChild: 'post-time',
-                    limitToLast: this.limit // Start at this.PAGE_SIZE newest items
-                }
-            });
-
-            this.messageListArraySubscription = this.messageListArray.subscribe((data) => {
-                this.updateCanLoadState(data);
-            });
-
         });
     }
 
@@ -84,6 +88,18 @@ export class ChatComponent implements OnInit, OnDestroy {
             const oldestItemIndex = 0; // remember that the array is displayed in reverse
             this.canLoadMoreData = data[oldestItemIndex].$key !== this.lastKey;
         }
+    }
+
+    private findFriendDisplayName() {
+        this.uid1Subscription = this.db.object('chats/' + this.chatKey + '/uid1').subscribe((uid1) => {
+            this.uid2Subscription = this.db.object('chats/' + this.chatKey + '/uid2').subscribe((uid2) => {
+                this.friendUID = uid1.$value === this.userUID ? uid2.$value : uid1.$value;
+                this.friendSubscription = this.db.object('user-profiles/' + this.friendUID).subscribe((friendData) => {
+                    this.friendDisplayName = friendData['display-name'];
+                    // TODO: Add display picture functionality
+                });
+            });
+        });
     }
 
     private tryToLoadMoreData(): void {
@@ -101,7 +117,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 {
                     'text': form.value.text,
                     'poster-display-name': this.userDisplayName,
-                    // 'poster-uid': this.userUID,
+                    'poster-uid': this.userUID,
                     'post-time': currDate.getTime() // For internationalization purposes
                 });
             form.resetForm();
@@ -116,5 +132,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.paramSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.messageListArraySubscription.unsubscribe();
+        this.uid1Subscription.unsubscribe();
+        this.uid2Subscription.unsubscribe();
     }
 }
