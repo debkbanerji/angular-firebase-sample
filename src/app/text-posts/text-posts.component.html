@@ -26,7 +26,7 @@
                     <!--{{post | json}}-->
                     <h3>{{post['title']}}</h3>
                     <p>{{post['text']}}</p>
-                    <p>Posted by {{post['poster-displayname']}} on <b>{{formatDate(post['datetime'])}}</b></p>
+                    <p>Posted by {{post['poster-display-name']}} on <b>{{formatDate(post['datetime'])}}</b></p>
                     <!--Users can only delete posts that they have made-->
                     <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post['$key'])"
                             class="btn btn-sm btn-raised btn-danger">Delete Post

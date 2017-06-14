@@ -119,15 +119,17 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
             uid2 = temp;
         }
         let chatKey;
-        const currDate = (new Date).getUTCDate();
+        let currDate: Date;
+        currDate = new Date();
+        currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
         chatKey = this.db.list('/chats').push({
             uid1: uid1,
             uid2: uid2,
             messages: {
                 message1: {
-                    date: currDate,
-                    poster: 'Bot',
-                    text: 'You can send messages now, but your friend won\'t be able to see' +
+                    'post-time': currDate.getTime(),
+                    'poster-display-name': 'Bot',
+                    'text': 'You can send messages now, but your friend won\'t be able to see' +
                     ' your messages before accepting your friend request'
                 }
             }

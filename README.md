@@ -33,6 +33,17 @@ The default Firebase realtime database rules are as follows:
 ```
 For increased security and performance, it is recommended that you replace these rules with those defined in `firebase-database-rules.json`
 
+For faster (albeit less secure) development, you can also replace the rules with:
+```
+{
+  "rules": {
+    ".read": "true",
+    ".write": "true"
+  }
+}
+```
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

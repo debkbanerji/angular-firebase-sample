@@ -37,7 +37,6 @@ export class TextPostsComponent implements OnInit, OnDestroy {
         return date.toLocaleString();
     }
 
-
     constructor(public authService: AuthService, private db: AngularFireDatabase) {
     }
 
@@ -139,7 +138,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
                 {
                     'title': form.value.title,
                     'text': form.value.text,
-                    'poster-displayname': this.userDisplayName,
+                    'poster-display-name': this.userDisplayName,
                     'poster-uid': this.userUID,
                     'datetime': currDate.getTime() // For internationalization purposes
                 });

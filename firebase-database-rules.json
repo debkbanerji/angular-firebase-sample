@@ -34,6 +34,9 @@
         },
         "chats": {
             "$chatID": {
+                "messages": {
+                    ".indexOn": "post-time"
+                },
                 ".read": "!data.exists() || (auth !==null  && (auth.uid === data.child('uid1').val() || auth.uid === data.child('uid2').val()))",
                 ".write": "!data.exists() || (auth !==null  && (auth.uid === data.child('uid1').val() || auth.uid === data.child('uid2').val()))"
             }

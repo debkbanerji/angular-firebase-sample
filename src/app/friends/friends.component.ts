@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
@@ -11,6 +11,8 @@ import {Router} from '@angular/router';
     styleUrls: ['./friends.component.css']
 })
 export class FriendsComponent implements OnInit, OnDestroy {
+
+    private userUID;
 
     private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
@@ -27,8 +29,10 @@ export class FriendsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
+                this.userUID = auth.uid;
+
                 // asyncronously find the last item in the list
-                this.lastKeySubscription = this.db.list('/friend-lists/' + auth.uid, {
+                this.lastKeySubscription = this.db.list('/friend-lists/' + this.userUID, {
                     query: {
                         orderByChild: 'last-interacted',
                         limitToFirst: 1
@@ -42,7 +46,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.friendListArray = this.db.list('/friend-lists/' + auth.uid, {
+                this.friendListArray = this.db.list('/friend-lists/' + this.userUID, {
                     query: {
                         orderByChild: 'last-interacted',
                         limitToLast: this.limit // Start at this.PAGE_SIZE newest items
@@ -83,7 +87,14 @@ export class FriendsComponent implements OnInit, OnDestroy {
         this.router.navigate([route]);
     }
 
-    private openChat(chatKey) {
+    private openChat(friend) {
+        let currDate: Date;
+        currDate = new Date();
+        currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
+        let lastInteractedObject: FirebaseObjectObservable<any>;
+        lastInteractedObject = this.db.object('/friend-lists/' + this.userUID + '/' + friend['uid'] + '/last-interacted');
+        lastInteractedObject.set(currDate.getTime());
+        const chatKey = friend['chat-key'];
         this.router.navigate(['chat', chatKey]);
     }
 
