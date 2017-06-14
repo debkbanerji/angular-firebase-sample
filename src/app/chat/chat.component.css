@@ -18,3 +18,18 @@
     padding-right: 10px;
     text-align: center;
 }
+
+.user-message {
+    margin: 0;
+    padding: 0;
+    color: dimgray;
+    font-weight: bold;
+    /*text-align: right;*/
+}
+
+.friend-message {
+    margin: 0;
+    padding: 0;
+    color: blue;
+    font-weight: bold;
+}

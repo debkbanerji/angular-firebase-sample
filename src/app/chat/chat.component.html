@@ -18,15 +18,9 @@
                     <h4 id="no-more-messages-text" *ngIf="!canLoadMoreData">Showing All Messages</h4>
                 </div>
                 <div *ngFor="let message of messageListArray | async | orderBy: 'post-time'">
-                    <div class="">
-                        <!--<p><strong class="panel poster-label">{{message['poster-display-name']}}</strong> {{message['text']}}</p>-->
-                        <div *ngIf="message['poster-uid'] === userUID">
-                            <p>{{message['text']}}</p>
-                        </div>
-                        <div *ngIf="!(message['poster-uid'] === userUID)">
-                            <b>{{message['text']}}</b>
-                        </div>
-                    </div>
+                    <p [ngClass]="{'user-message': message['poster-uid'] === userUID,'friend-message': !(message['poster-uid'] === userUID)}">
+                        {{message['text']}}
+                    </p>
                 </div>
             </div>
         </div>
