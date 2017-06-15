@@ -88,17 +88,11 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
 
     private openChat(friend) {
-        let currDate: Date;
-        currDate = new Date();
-        currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
-        let lastInteractedObject: FirebaseObjectObservable<any>;
-        lastInteractedObject = this.db.object('/friend-lists/' + this.userUID + '/' + friend['uid'] + '/last-interacted');
-        lastInteractedObject.set(currDate.getTime());
         const chatKey = friend['chat-key'];
         this.router.navigate(['chat', chatKey]);
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy() {
         this.friendListArraySubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         // window.onscroll = () => {

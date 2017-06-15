@@ -86,10 +86,14 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
                                 let currDate: Date;
                                 currDate = new Date();
                                 currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
-                                friendData['last-interacted'] = currDate.getTime();
-                                friendData['chat-key'] = chatKey;
+                                this.friendObject.set({
+                                    'chat-key': chatKey,
+                                    'display-name': friendData['display-name'],
+                                    'email': friendData['display-name'],
+                                    'last-interacted': currDate.getTime(),
+                                    'uid': friendData['uid']
+                                });
                                 let friendRequestObject;
-                                this.friendObject.set(friendData);
                                 friendRequestObject = this.db.object('friend-requests/' + friendUID + '/' + this.userUID);
                                 friendRequestObject.set({
                                     'uid': this.userUID,

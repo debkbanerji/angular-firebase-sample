@@ -6,18 +6,19 @@
                 <h1>Settings</h1>
             </div>
             <div class="panel">
-                <h3>Email: {{userEmail}}</h3>
+                <h2>Your Profile</h2>
             </div>
             <div class="panel">
-                <h3>Display Name: {{userDisplayName}}</h3>
-                <!--<form #f="ngForm" (ngSubmit)="upDateDisplayName(f)" novalidate>-->
-                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-                    <!--<input name="newDisplayName" ngModel required #first="ngModel" placeholder="New Display Name"-->
-                           <!--class="form-control">-->
-                    <!--<button class="btn btn-raised btn-success">Update Display Name</button>-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--</form>-->
-                <!--<b>{{updateDisplayNameText}}</b>-->
+                <b>Email</b>
+                <h3 class="user-data"> {{userEmail}}</h3>
+            </div>
+            <div class="panel">
+                <b>Display Name</b>
+                <h3 class="user-data">{{userDisplayName}}</h3>
+            </div>
+            <div class="panel user-photo-panel">
+                <b>Display Picture</b>
+                <img src="{{userPhotoURL}}" class="img-rounded img-responsive user-data user-photo">
             </div>
         </div>
     </div>

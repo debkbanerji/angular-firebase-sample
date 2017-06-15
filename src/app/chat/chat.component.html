@@ -2,8 +2,9 @@
 <div class="row">
     <div *ngIf="friendDisplayName" class="col-xs-12">
         <div class="container-fluid">
-            <div class="panel">
-                <h4>{{friendDisplayName}}</h4>
+            <div class="panel" style="white-space:nowrap">
+                <img src="{{friendPhotoURL}}" class="img-circle friend-photo">
+                <h3 class="friend-name">{{friendDisplayName}}</h3>
             </div>
         </div>
     </div>

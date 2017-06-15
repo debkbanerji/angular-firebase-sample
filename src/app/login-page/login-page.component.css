@@ -1,4 +1,9 @@
 .panel {
     padding: 5px;
-    padding-left: 10px
+    padding-left: 10px;
+    margin: 10px;
+}
+
+.container-fluid {
+    padding: 0;
 }

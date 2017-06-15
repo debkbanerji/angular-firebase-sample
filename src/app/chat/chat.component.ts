@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private friendUID: string;
     private userDisplayName: string;
     private friendDisplayName: string;
+    private friendPhotoURL: string;
     private chatKey: string;
     private paramSubscription: Subscription;
 
@@ -46,6 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
+                console.log(auth.photoURL);
                 this.userUID = auth.uid;
                 this.userDisplayName = auth.displayName;
                 this.paramSubscription = this.route.params.subscribe(params => {
@@ -79,7 +81,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                         // Keep track of number of messages to know when to delete old ones
                         this.messageListArray.$ref.on('child_added', (child) => {
                             this.totalMessages += 1;
-                            console.log(this.totalMessages);
                         });
                     }
 
@@ -106,7 +107,13 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.friendUID = uid1.$value === this.userUID ? uid2.$value : uid1.$value;
                 this.friendSubscription = this.db.object('user-profiles/' + this.friendUID).subscribe((friendData) => {
                     this.friendDisplayName = friendData['display-name'];
-                    // TODO: Add display picture functionality
+                    this.friendPhotoURL = friendData['photo-url'];
+                    let currDate: Date;
+                    currDate = new Date();
+                    currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
+                    let lastInteractedObject: FirebaseObjectObservable<any>;
+                    lastInteractedObject = this.db.object('/friend-lists/' + this.userUID + '/' + this.friendUID + '/last-interacted');
+                    lastInteractedObject.set(currDate.getTime());
                 });
             });
         });
@@ -132,12 +139,14 @@ export class ChatComponent implements OnInit, OnDestroy {
                 });
             form.resetForm();
 
-            this.deleteOldMessages();
+            if (this.shouldDeleteOldMessages) {
+                this.deleteOldMessages();
+            }
         }
     }
 
     private deleteOldMessages() {
-        if (this.shouldDeleteOldMessages && this.totalMessages >= this.PAGE_SIZE) {
+        if (this.totalMessages >= this.PAGE_SIZE) {
             const component = this;
             this.totalMessages -= 1;
             this.db.object('chats/' + this.chatKey + '/messages/' + this.lastKey).set(null).then(function () {

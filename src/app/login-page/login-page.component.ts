@@ -26,21 +26,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.authService.loginWithGoogle().then((loginData) => {
             this.authService.afAuth.auth.onAuthStateChanged((auth) => {
                 if (auth != null) {
-                    const address = '/user-profiles/' + auth.uid;
-                    const userObject = this.db.object(address);
-                    this.userDataSubscription = userObject.subscribe((data) => {
-                        if (!data.$exists()) {
-                            // New User - add data then redirect
-                            this.userDataSubscription.unsubscribe();
-                            userObject.set({
-                                'uid': auth.uid,
-                                'email': auth.email,
-                                'display-name': auth.displayName
-                            }).then(_ => this.router.navigate(['']));
-                        } else {
-                            // Old User - redirect without updating data
-                            this.router.navigate(['']);
-                        }
+                    const userObject = this.db.object('/user-profiles/' + auth.uid);
+                    userObject.set({
+                        'uid': auth.uid,
+                        'email': auth.email,
+                        'display-name': auth.displayName,
+                        'photo-url': auth.photoURL
+                    }).then(_ => {
+                        this.router.navigate(['']);
                     });
                 }
             });
@@ -48,6 +41,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.userDataSubscription.unsubscribe();
+        if (this.userDataSubscription) {
+            this.userDataSubscription.unsubscribe();
+        }
     }
 }

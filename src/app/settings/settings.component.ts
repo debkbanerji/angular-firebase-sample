@@ -4,18 +4,20 @@ import {NgForm} from '@angular/forms';
 import {AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
 
 import {AuthService} from '../providers/auth.service';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
-    private userEmail: String;
-    private userDisplayName: string;
+export class SettingsComponent implements OnInit, OnDestroy {
 
-    // private updateDisplayNameText: string;
-    // private displayNameObject: FirebaseObjectObservable<any>;
+    private userProfileSubscription: Subscription;
+
+    private userEmail: string;
+    private userDisplayName: string;
+    private userPhotoURL: string;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase) {
     }
@@ -23,21 +25,16 @@ export class SettingsComponent implements OnInit {
     ngOnInit() {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
-                this.userEmail = auth.email;
-                this.userDisplayName = auth.displayName;
-                // this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
+                this.userProfileSubscription = this.db.object('/user-profiles/' + auth.uid).subscribe((data) => {
+                    this.userEmail = data['email'];
+                    this.userDisplayName = data['display-name'];
+                    this.userPhotoURL = data['photo-url'];
+                });
             }
         });
     }
 
-    // upDateDisplayName(form: NgForm) {
-    //     if (form.valid) {
-    //         this.displayNameObject.set(form.value.newDisplayName);
-    //         form.resetForm();
-    //         this.updateDisplayNameText = 'Successfully updated display name';
-    //     } else {
-    //         this.updateDisplayNameText = 'Please fill out all the required data';
-    //     }
-    // }
-
+    ngOnDestroy() {
+        this.userProfileSubscription.unsubscribe();
+    }
 }
