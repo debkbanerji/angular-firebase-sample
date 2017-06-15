@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../providers/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
+
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
@@ -22,7 +23,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private uid2Subscription: Subscription;
     private friendSubscription: Subscription;
 
-    private deleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
+    private shouldDeleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
+    private totalMessages = 0; // NOTE: Only updated if shouldDeleteOldMessages is set to true
     private PAGE_SIZE = 20;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     private messageListArray: FirebaseListObservable<any>;
@@ -73,6 +75,14 @@ export class ChatComponent implements OnInit, OnDestroy {
                         }
                     });
 
+                    if (this.shouldDeleteOldMessages) {
+                        // Keep track of number of messages to know when to delete old ones
+                        this.messageListArray.$ref.on('child_added', (child) => {
+                            this.totalMessages += 1;
+                            console.log(this.totalMessages);
+                        });
+                    }
+
                     this.messageListArraySubscription = this.messageListArray.subscribe((data) => {
                         this.updateCanLoadState(data);
                     });
@@ -122,9 +132,17 @@ export class ChatComponent implements OnInit, OnDestroy {
                 });
             form.resetForm();
 
-            if (this.deleteOldMessages && Object.keys(this.messageListArray).length >= this.PAGE_SIZE) {
-                this.db.object('chats/' + this.chatKey + '/messages' + this.lastKey).set(null);
-            }
+            this.deleteOldMessages();
+        }
+    }
+
+    private deleteOldMessages() {
+        if (this.shouldDeleteOldMessages && this.totalMessages >= this.PAGE_SIZE) {
+            const component = this;
+            this.totalMessages -= 1;
+            this.db.object('chats/' + this.chatKey + '/messages/' + this.lastKey).set(null).then(function () {
+                component.deleteOldMessages();
+            });
         }
     }
 

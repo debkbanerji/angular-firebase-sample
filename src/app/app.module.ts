@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {RouterModule, Routes} from '@angular/router';
@@ -18,10 +18,10 @@ import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {TextPostsComponent} from './text-posts/text-posts.component';
 import {SettingsComponent} from './settings/settings.component';
-import { FriendsComponent } from './friends/friends.component';
-import { AddFriendsComponent } from './add-friends/add-friends.component';
-import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
-import { ChatComponent } from './chat/chat.component';
+import {FriendsComponent} from './friends/friends.component';
+import {AddFriendsComponent} from './add-friends/add-friends.component';
+import {FriendRequestsComponent} from './friend-requests/friend-requests.component';
+import {ChatComponent} from './chat/chat.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: '', component: HomePageComponent}, // Default route
@@ -32,7 +32,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes
     {path: 'add-friends', component: AddFriendsComponent},
     {path: 'friend-requests', component: FriendRequestsComponent},
     {path: 'chat/:chat-key', component: ChatComponent}
-    ];
+];
 
 @NgModule({
     declarations: [
