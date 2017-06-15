@@ -7,8 +7,6 @@ import {AngularFireAuth} from 'angularfire2/auth';
 @Injectable()
 export class AuthService {
 
-    // constructor() { }
-
     user: Observable<firebase.User>;
 
     constructor(public afAuth: AngularFireAuth) {

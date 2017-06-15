@@ -1,25 +1,60 @@
-import {Component, OnInit, ApplicationRef} from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy} from '@angular/core';
 
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {AuthService} from '../providers/auth.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'app-nav-bar',
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
     private isLoggedIn: boolean;
+    private routerSubscription: Subscription;
+    private currentRoute: string;
+    private navBarItems: Array<any>;
 
-    constructor(public authService: AuthService, private router: Router, private apRef: ApplicationRef) {
+    constructor(public authService: AuthService, private apRef: ApplicationRef,
+                private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        // console.log(this.router.url);
+        this.navBarItems = [
+            {
+                route: '',
+                text: 'Home'
+            },
+            {
+                route: 'text-posts',
+                text: 'Text Posts'
+            },
+            {
+                route: 'friends',
+                text: 'Friends'
+            },
+            {
+                route: 'settings',
+                text: 'Settings'
+            },
+            {
+                route: 'logout', // Not actual route - caught by 'navigateTo' function
+                text: 'Sign Out'
+            }
+        ];
+
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             this.isLoggedIn = auth != null;
             this.apRef.tick(); // For updating UI
+        });
+
+        this.routerSubscription = this.route.url.subscribe(url => {
+            if (url[0]) {
+                this.currentRoute = url[0].path;
+            } else {
+                this.currentRoute = '';
+            }
         });
     }
 
@@ -28,7 +63,13 @@ export class NavBarComponent implements OnInit {
     }
 
     private navigateTo(route) {
+        if (route === 'logout') {
+            this.authService.logout();
+        }
         this.router.navigate([route]);
-        // console.log(this.router.url);
+    }
+
+    ngOnDestroy() {
+        this.routerSubscription.unsubscribe();
     }
 }

@@ -1,8 +1,3 @@
-#current-tab {
-    background-color: #ff5555;
-    color: #ffffff;
-}
-
 .nav-bar-fade-on-hover {
     cursor: pointer;
 
@@ -30,4 +25,8 @@
     background-image: none !important;
 
     background-color: #ffbbbb;
+}
+
+.tab-item {
+    width: 100%;
 }

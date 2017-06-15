@@ -14,23 +14,13 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="nav-bar-fade-on-hover" (click)="navigateTo('')" *ngIf="isLoggedIn">
-                    <a>Home</a>
-                </li>
-                <li class="nav-bar-fade-on-hover" (click)="navigateTo('text-posts')" *ngIf="isLoggedIn">
-                    <a>Text Posts</a>
-                </li>
-                <li class="nav-bar-fade-on-hover" (click)="navigateTo('friends')" *ngIf="isLoggedIn">
-                    <a>Friends</a>
-                </li>
-                <li class="nav-bar-fade-on-hover" (click)="navigateTo('settings')" *ngIf="isLoggedIn">
-                    <a>Settings</a>
-                </li>
-                <li class="nav-bar-fade-on-hover" (click)="logout()" *ngIf="isLoggedIn">
-                    <a>Sign Out</a>
+            <ul class="nav navbar-nav" *ngFor="let tab of navBarItems">
+                <li class="nav-bar-fade-on-hover tab-item"
+                    [ngClass]="{'active': tab['route'] === currentRoute}"
+                    (click)="navigateTo(tab['route'])" *ngIf="isLoggedIn">
+                    <a>{{tab['text']}}</a>
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </nav>
