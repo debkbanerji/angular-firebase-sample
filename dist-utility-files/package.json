@@ -1,0 +1,16 @@
+
+{
+    "name": "angular-firebase-skeleton",
+    "version": "0.0.0",
+    "description": "Sample Angular 2 Firebase Project",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "author": "Your Name Here",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.14.0"
+    }
+}

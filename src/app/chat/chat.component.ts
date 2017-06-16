@@ -47,7 +47,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
-                console.log(auth.photoURL);
                 this.userUID = auth.uid;
                 this.userDisplayName = auth.displayName;
                 this.paramSubscription = this.route.params.subscribe(params => {

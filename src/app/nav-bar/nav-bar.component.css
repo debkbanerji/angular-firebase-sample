@@ -17,14 +17,7 @@
 }
 
 .nav-bar-fade-on-hover:hover, .nav-bar-fade-on-hover:focus, .nav-bar-fade-on-hover:active {
-    /*background-color: #ff4444;*/
     color: white;
-}
-
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-    background-image: none !important;
-
-    background-color: #ffbbbb;
 }
 
 .tab-item {
