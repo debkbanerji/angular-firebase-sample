@@ -12,8 +12,8 @@ import {Router} from '@angular/router';
 })
 export class AddFriendsComponent implements OnInit, OnDestroy {
 
-    private searchText: string;
-    private searchResults: FirebaseListObservable<any[]>;
+    public searchText: string;
+    public searchResults: FirebaseListObservable<any[]>;
     private searchSubscription: Subscription;
     private userUID: string;
     private userDisplayName: string;
@@ -42,7 +42,7 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
         });
     }
 
-    private onSearch(form: NgForm) {
+    public onSearch(form: NgForm) {
         this.searchText = null;
         if (form.valid) {
             this.searchResults = this.db.list('user-profiles', {
@@ -141,7 +141,7 @@ export class AddFriendsComponent implements OnInit, OnDestroy {
         return chatKey;
     }
 
-    private navigateTo(route) {
+    public navigateTo(route) {
         this.router.navigate([route]);
     }
 

@@ -19,13 +19,13 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     private PAGE_SIZE = 2;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
-    private postsArray: FirebaseListObservable<any>;
+    public postsArray: FirebaseListObservable<any>;
     private postsArraySubscription: Subscription;
     private lastKey: String;
-    private canLoadMoreData: boolean;
+    public canLoadMoreData: boolean;
     private lastKeySubscription: Subscription;
 
-    private submitText: String;
+    public submitText: String;
     private userDisplayName: String;
     private userUID: String;
     // private displayNameObject: FirebaseObjectObservable<any>;
@@ -123,13 +123,13 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     }
 
 
-    private tryToLoadMoreData(): void {
+    public tryToLoadMoreData(): void {
         if (this.canLoadMoreData) {
             this.limit.next(this.limit.getValue() + this.PAGE_SIZE);
         }
     }
 
-    private onSubmit(form: NgForm) {
+    public onSubmit(form: NgForm) {
         if (form.valid) {
             let currDate: Date;
             currDate = new Date();

@@ -15,9 +15,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     private userProfileSubscription: Subscription;
 
-    private userEmail: string;
-    private userDisplayName: string;
-    private userPhotoURL: string;
+    public userEmail: string;
+    public userDisplayName: string;
+    public userPhotoURL: string;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase) {
     }

@@ -11,7 +11,7 @@ import {AuthService} from '../providers/auth.service';
 export class HomePageComponent implements OnInit {
 
     // private displayNameObject: FirebaseObjectObservable<any>;
-    private displayName: string;
+    public displayName: string;
 
     // constructor(public authService: AuthService, private db: AngularFireDatabase) {
     constructor(public authService: AuthService) {

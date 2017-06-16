@@ -15,10 +15,10 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
 
     private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
-    private requestsArray: FirebaseListObservable<any>;
+    public requestsArray: FirebaseListObservable<any>;
     private requestsArraySubscription: Subscription;
     private lastKey: String;
-    private canLoadMoreData: boolean;
+    public canLoadMoreData: boolean;
     private lastKeySubscription: Subscription;
     private userUID: string;
 
@@ -105,7 +105,7 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     }
 
 
-    private navigateTo(route) {
+    public navigateTo(route) {
         this.router.navigate([route]);
     }
 

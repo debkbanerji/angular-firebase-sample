@@ -15,8 +15,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private userUID: string;
     private friendUID: string;
     private userDisplayName: string;
-    private friendDisplayName: string;
-    private friendPhotoURL: string;
+    public friendDisplayName: string;
+    public friendPhotoURL: string;
     private chatKey: string;
     private paramSubscription: Subscription;
 
@@ -24,11 +24,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     private uid2Subscription: Subscription;
     private friendSubscription: Subscription;
 
-    private shouldDeleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
+    public shouldDeleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
     private totalMessages = 0; // NOTE: Only updated if shouldDeleteOldMessages is set to true
     private PAGE_SIZE = 20;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
-    private messageListArray: FirebaseListObservable<any>;
+    public messageListArray: FirebaseListObservable<any>;
     private messageListArraySubscription: Subscription;
 
     private lastKeySubscription: Subscription;
@@ -81,6 +81,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                         this.messageListArray.$ref.on('child_added', (child) => {
                             this.totalMessages += 1;
                         });
+                        this.messageListArray.$ref.on('child_removed', (child) => {
+                            this.totalMessages -= 1;
+                        });
                     }
 
                     this.messageListArraySubscription = this.messageListArray.subscribe((data) => {
@@ -124,7 +127,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
     }
 
-    private sendMessage(form: NgForm): void {
+    public sendMessage(form: NgForm): void {
         if (form.valid) {
             let currDate: Date;
             currDate = new Date();
@@ -147,7 +150,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     private deleteOldMessages() {
         if (this.totalMessages >= this.PAGE_SIZE) {
             const component = this;
-            this.totalMessages -= 1;
             this.db.object('chats/' + this.chatKey + '/messages/' + this.lastKey).set(null).then(function () {
                 component.deleteOldMessages();
             });

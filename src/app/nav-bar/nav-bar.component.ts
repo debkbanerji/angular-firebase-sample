@@ -14,7 +14,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private isLoggedIn: boolean;
     private routerSubscription: Subscription;
     private currentRoute: string;
-    private navBarItems: Array<any>;
+    public navBarItems: Array<any>;
 
     constructor(public authService: AuthService, private apRef: ApplicationRef,
                 private router: Router, private route: ActivatedRoute) {

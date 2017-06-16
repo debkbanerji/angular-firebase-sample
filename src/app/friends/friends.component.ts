@@ -16,12 +16,12 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
-    private friendListArray: FirebaseListObservable<any>;
+    public friendListArray: FirebaseListObservable<any>;
     private friendListArraySubscription: Subscription;
 
     private lastKeySubscription: Subscription;
     private lastKey: string;
-    private canLoadMoreData: boolean;
+    public canLoadMoreData: boolean;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
@@ -83,7 +83,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
         }
     }
 
-    private navigateTo(route) {
+    public navigateTo(route) {
         this.router.navigate([route]);
     }
 
