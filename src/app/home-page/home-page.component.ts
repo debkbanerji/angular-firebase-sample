@@ -12,12 +12,14 @@ export class HomePageComponent implements OnInit {
 
     // private displayNameObject: FirebaseObjectObservable<any>;
     public displayName: string;
+    public LOGO_URL: any;
 
     // constructor(public authService: AuthService, private db: AngularFireDatabase) {
     constructor(public authService: AuthService) {
     }
 
     ngOnInit() {
+        this.LOGO_URL = '/assets/images/logo.png';
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
                 this.displayName = auth.displayName;

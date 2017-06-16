@@ -2,8 +2,13 @@
     padding: 5px;
     padding-left: 10px;
     margin: 10px;
+    text-align: center;
 }
 
 .container-fluid {
     padding: 0;
+}
+
+.logo-large {
+    width: 30%;
 }

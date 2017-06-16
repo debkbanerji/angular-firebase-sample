@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {Router} from '@angular/router';
 
-import {AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs/Subscription';
