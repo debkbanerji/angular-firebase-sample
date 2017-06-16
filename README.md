@@ -65,7 +65,7 @@ For faster (albeit less secure) development, you can also replace the rules with
 ### Replacing Placeholders
 
 All placeholders in the application which should be replaced by your own information have been marked by `TODO: replace`.
-The exception is `package.json` and `dist-utility-files/package.json` As JSON does not allow for comments. Don't forget to update those.
+The exception is `package.json` and `dist-utility-files/package.json` as JSON does not allow for comments. Don't forget to update those.
 
 #### `TODO: Update package.json files`
 
