@@ -65,8 +65,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private navigateTo(route) {
         if (route === 'logout') {
             this.authService.logout();
+        } else {
+            this.router.navigate([route]);
         }
-        this.router.navigate([route]);
     }
 
     ngOnDestroy() {

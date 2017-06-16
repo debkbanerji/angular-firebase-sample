@@ -14,12 +14,13 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
     private userDataSubscription: Subscription;
-    // private userObject: FirebaseObjectObservable<any>;
+    public LOGO_URL: any;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
 
     ngOnInit() {
+        this.LOGO_URL = '/assets/images/logo.png';
     }
 
     loginWithGoogle() {
