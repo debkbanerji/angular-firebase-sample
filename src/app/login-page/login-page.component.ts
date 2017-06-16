@@ -20,6 +20,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // TODO: Replace
         this.LOGO_URL = '/assets/images/logo.png';
     }
 

@@ -1,6 +1,7 @@
 {
     "name": "angular-firebase-skeleton",
     "version": "0.0.0",
+    "author": "Your Name Here",
     "license": "MIT",
     "scripts": {
         "ng": "ng",

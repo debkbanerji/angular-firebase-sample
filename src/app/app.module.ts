@@ -23,7 +23,7 @@ import {AddFriendsComponent} from './add-friends/add-friends.component';
 import {FriendRequestsComponent} from './friend-requests/friend-requests.component';
 import {ChatComponent} from './chat/chat.component';
 
-const routes: Routes = [ // Array of all routes - modify when adding routes
+const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
     {path: '', component: HomePageComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
     {path: 'text-posts', component: TextPostsComponent},

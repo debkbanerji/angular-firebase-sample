@@ -19,6 +19,7 @@ export class HomePageComponent implements OnInit {
     }
 
     ngOnInit() {
+        // TODO: Replace
         this.LOGO_URL = '/assets/images/logo.png';
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {

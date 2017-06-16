@@ -21,6 +21,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // TODO: Replace
         this.navBarItems = [
             {
                 route: '',
