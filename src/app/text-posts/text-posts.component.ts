@@ -17,7 +17,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
     // private numPostsObject: FirebaseObjectObservable<any>;
     // private numPosts: number;
 
-    private PAGE_SIZE = 2;
+    private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     public postsArray: FirebaseListObservable<any>;
     private postsArraySubscription: Subscription;
