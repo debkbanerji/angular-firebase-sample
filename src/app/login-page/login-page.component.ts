@@ -14,7 +14,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
     private userDataSubscription: Subscription;
-    public LOGO_URL: any;
+    public LOGO_URL: string;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router) {
     }
