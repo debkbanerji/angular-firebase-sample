@@ -4,8 +4,7 @@
         <div class="container-fluid">
             <div class="panel">
                 <h1>Posts</h1>
-                <!--<h3>Total number of posts: {{ (numPostsObject | async)?.$value }}</h3>-->
-                <!--<h3>Total number of posts: {{ numPosts }}</h3>-->
+                <h3>Total number of posts: {{ (numPostsObject | async)?.$value || 0}}</h3>
             </div>
             <div class="panel">
                 <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>

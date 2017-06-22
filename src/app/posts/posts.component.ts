@@ -13,23 +13,19 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
     styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit, OnDestroy {
-    // private numPostsSubscription: Subscription;
-    // private numPostsObject: FirebaseObjectObservable<any>;
-    // private numPosts: number;
-
     private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
+    private feedLocation: string;
     public postsArray: FirebaseListObservable<any>;
     private postsArraySubscription: Subscription;
     private lastKey: String;
+    private numPostsObject: FirebaseObjectObservable<any>;
     public canLoadMoreData: boolean;
     private lastKeySubscription: Subscription;
 
     public submitText: String;
     private userDisplayName: String;
     private userUID: String;
-    // private displayNameObject: FirebaseObjectObservable<any>;
-    // private userDataSubscription: Subscription;
 
     formatDate(millis) {
         const date = new Date(millis);
@@ -42,18 +38,11 @@ export class PostsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.submitText = '';
-        const feedLocation = '/posts';
-        // this.numPostsObject = this.db.object(feedLocation + '/num-posts', {preserveSnapshot: true});
-        // this.numPostsSubscription = this.numPostsObject.subscribe(snapshot => {
-        //     let val = snapshot.val();
-        //     if (!val) {
-        //         val = 0;
-        //     }
-        //     this.numPosts = val;
-        // });
+        this.feedLocation = '/posts';
+        this.numPostsObject = this.db.object(this.feedLocation + '/num-posts');
 
         // asyncronously find the last item in the list
-        this.lastKeySubscription = this.db.list(feedLocation + '/posts', {
+        this.lastKeySubscription = this.db.list(this.feedLocation + '/posts', {
             query: {
                 orderByChild: 'datetime',
                 limitToFirst: 1
@@ -68,7 +57,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         });
 
 
-        this.postsArray = this.db.list(feedLocation + '/posts', {
+        this.postsArray = this.db.list(this.feedLocation + '/posts', {
             query: {
                 orderByChild: 'datetime',
                 limitToLast: this.limit // Start at this.PAGE_SIZE newest items
@@ -90,12 +79,6 @@ export class PostsComponent implements OnInit, OnDestroy {
                 // logged in
                 this.userDisplayName = auth.displayName;
                 this.userUID = auth.uid;
-                // if (auth != null) {
-                //     this.displayNameObject = this.db.object('/user-profiles/' + auth.uid + '/display-name');
-                //     this.userDataSubscription = this.displayNameObject.subscribe((data) => {
-                //         this.userDisplayName = data.$value;
-                //     });
-                // }
             }
         });
 
@@ -144,7 +127,9 @@ export class PostsComponent implements OnInit, OnDestroy {
                 });
             form.resetForm();
             this.submitText = 'Successfully made post';
-            // this.numPostsObject.set(this.numPosts + 1);
+            this.numPostsObject.$ref.transaction(data => {
+                return data + 1;
+            });
         } else {
             this.submitText = 'Please fill out all the required data';
         }
@@ -152,7 +137,9 @@ export class PostsComponent implements OnInit, OnDestroy {
 
     private removePost(key) {
         this.postsArray.remove(key);
-        // this.numPostsObject.set(this.numPosts - 1);
+        this.numPostsObject.$ref.transaction(data => {
+            return data - 1;
+        });
     }
 
     ngOnDestroy() {
