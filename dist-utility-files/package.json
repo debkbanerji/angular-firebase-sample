@@ -1,4 +1,3 @@
-
 {
     "name": "angular-firebase-skeleton",
     "version": "0.0.0",
@@ -11,6 +10,8 @@
     "author": "Your Name Here",
     "license": "MIT",
     "dependencies": {
-        "express": "^4.14.0"
+        "body-parser": "^1.17.2",
+        "express": "^4.14.0",
+        "path": "^0.12.7"
     }
 }

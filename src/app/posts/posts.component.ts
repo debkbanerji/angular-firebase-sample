@@ -9,10 +9,10 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'app-text-posts',
-    templateUrl: './text-posts.component.html',
-    styleUrls: ['./text-posts.component.css']
+    templateUrl: './posts.component.html',
+    styleUrls: ['./posts.component.css']
 })
-export class TextPostsComponent implements OnInit, OnDestroy {
+export class PostsComponent implements OnInit, OnDestroy {
     // private numPostsSubscription: Subscription;
     // private numPostsObject: FirebaseObjectObservable<any>;
     // private numPosts: number;
@@ -42,7 +42,7 @@ export class TextPostsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.submitText = '';
-        const feedLocation = '/text-posts';
+        const feedLocation = '/posts';
         // this.numPostsObject = this.db.object(feedLocation + '/num-posts', {preserveSnapshot: true});
         // this.numPostsSubscription = this.numPostsObject.subscribe(snapshot => {
         //     let val = snapshot.val();

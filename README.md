@@ -75,7 +75,7 @@ Also, don't forget to replace the content of this `README.md` file with your own
 
 ## Starting The Application in a Development Environment
 
-You can start a development server by running `npm start` and navigating to `http://localhost:4200/` The app will automatically reload if you change any of the source files.
+You can start a development server by running `npm develop` and navigating to `http://localhost:4200/` The app will automatically reload if you change any of the source files.
 Note that this is simply a wrapper around `ng serve`.
 
 ## Building The Application
@@ -93,7 +93,7 @@ If you only want the static files, without the server and package files, you can
 
 ## Deploying The Application
 
-If you are deploying the application to a production environment, you must either build the application and deploy the static files of the built version (optionally using the 2 files in `dist-utility-files`) or move the `@angular/cli` and `@angular/compiler-cli` dependencies from `devDependencies` to `dependencies`.
+If you are deploying the application to a production environment, it is recommended for you to build the application and deploy the static files of the built version (optionally using the 2 files in `dist-utility-files`).
 
 ## Using The Angular CLI
 

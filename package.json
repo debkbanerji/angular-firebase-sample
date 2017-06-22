@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "ng build -prod && node distribution-server.js",
+        "develop": "ng serve",
         "build": "ng build -prod && cp -r dist-utility-files/. dist",
         "messy-build": "ng build && cp -r dist-utility-files/. dist",
         "test": "ng test",
@@ -14,8 +15,10 @@
     },
     "private": true,
     "dependencies": {
+        "@angular/cli": "1.0.3",
         "@angular/common": "^4.0.0",
         "@angular/compiler": "^4.0.0",
+        "@angular/compiler-cli": "^4.0.0",
         "@angular/core": "^4.0.0",
         "@angular/forms": "^4.0.0",
         "@angular/http": "^4.0.0",
@@ -23,15 +26,15 @@
         "@angular/platform-browser-dynamic": "^4.0.0",
         "@angular/router": "^4.0.0",
         "angularfire2": "^4.0.0-rc.0",
+        "body-parser": "^1.17.2",
         "core-js": "^2.4.1",
         "firebase": "^3.9.0",
         "ngx-pipes": "^1.5.10",
+        "path": "^0.12.7",
         "rxjs": "^5.1.0",
         "zone.js": "^0.8.4"
     },
     "devDependencies": {
-        "@angular/cli": "1.0.3",
-        "@angular/compiler-cli": "^4.0.0",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",
         "codelyzer": "~2.0.0",

@@ -1,6 +1,6 @@
 {
     "rules": {
-        "text-posts": {
+        "posts": {
             "num-posts": {
                 ".read": "auth != null",
                 ".write": "auth != null"
