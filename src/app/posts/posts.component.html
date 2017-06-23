@@ -9,11 +9,19 @@
             <div class="panel">
                 <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                     <!--<div class="form-group">-->
-                    <input name="title" ngModel required #first="ngModel" placeholder="Post Title"
+                    <input name="title" ngModel required placeholder="Post Title"
                            class="form-control">
                     <textarea name="text" ngModel required placeholder="Post Text" class="form-control">
 
                     </textarea>
+                    <!--<label for="file-upload" class="btn btn-raised btn-success">>-->
+                        <!--Custom Upload-->
+                    <!--</label>-->
+                    <!--<input id="file-upload" name="image" type="file" >-->
+                    <label class="btn btn-raised btn-success">
+                        <input type="file" name="image" ngModel/>
+                        Upload Image
+                    </label>
                     <button class="btn btn-raised btn-success">Make New Post</button>
                     <!--</div>-->
                 </form>

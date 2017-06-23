@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Inject} from '@angular/core';
 import {NgForm} from '@angular/forms';
 
 import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from 'angularfire2/database';
@@ -6,6 +6,7 @@ import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} f
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import *as firebase from 'firebase';
 
 @Component({
     selector: 'app-text-posts',
@@ -125,6 +126,17 @@ export class PostsComponent implements OnInit, OnDestroy {
                     'poster-uid': this.userUID,
                     'datetime': currDate.getTime() // For internationalization purposes
                 });
+
+            console.log(form.value);
+            let image = form.value.image;
+            console.log(image);
+            console.log(firebase);
+            let imageRef = firebase.storage().ref().child('/' + this.userUID + '/' + currDate.getTime());
+            // Unique path as one user cannot upload multiple files at the exact same time
+            imageRef.put(image).then(function(snapshot) {
+                console.log('Uploaded a blob or file!');
+            });
+
             form.resetForm();
             this.submitText = 'Successfully made post';
             this.numPostsObject.$ref.transaction(data => {
