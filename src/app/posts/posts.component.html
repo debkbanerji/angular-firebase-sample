@@ -16,9 +16,9 @@
                     </ng2-file-input>
                     <div *ngIf="fileInputComponent.currentFiles.length > 0">
                         <b>{{fileInputComponent.currentFiles[0].name}}</b>
-                        <button class="btn btn-raised btn-danger btn-sm" (click)="removeImage(fileInputComponent.currentFiles[0])">Remove Image</button>
+                        <button class="btn btn-raised btn-custom btn-sm" (click)="removeImage(fileInputComponent.currentFiles[0])">Remove Image</button>
                     </div>
-                    <button class="btn btn-raised btn-success">Make New Post</button>
+                    <button class="btn btn-raised btn-custom">Make New Post</button>
                     <!--</div>-->
                 </form>
                 <b>{{submitText}}</b>
@@ -33,12 +33,12 @@
                     <p>Posted by {{post['poster-display-name']}} on <b>{{formatDate(post['datetime'])}}</b></p>
                     <!--Users can only delete posts that they have made-->
                     <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post)"
-                            class="btn btn-sm btn-raised btn-danger">Delete Post
+                            class="btn btn-sm btn-raised btn-custom">Delete Post
                     </button>
                 </div>
             </div>
             <div *ngIf="canLoadMoreData" class="panel">
-                <button id="load-more-posts" class="btn btn-raised btn-info" (click)="tryToLoadMoreData()">
+                <button id="load-more-posts" class="btn btn-raised btn-custom" (click)="tryToLoadMoreData()">
                     Load More Posts
                 </button>
             </div>

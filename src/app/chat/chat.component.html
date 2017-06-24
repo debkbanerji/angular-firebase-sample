@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="panel">
                 <div *ngIf="!shouldDeleteOldMessages">
-                    <button *ngIf="canLoadMoreData" id="load-more-messages" class="btn btn-info"
+                    <button *ngIf="canLoadMoreData" id="load-more-messages" class="btn btn-custom"
                             (click)="tryToLoadMoreData()">
                         Show More Messages
                     </button>
@@ -35,7 +35,7 @@
                         <input name="text" ngModel required #first="ngModel" placeholder="Type a message..."
                                class="form-control">
                         <span class="input-group-btn">
-                            <button class="btn btn-sm btn-raised btn-success"><i class="glyphicon glyphicon-send"></i>
+                            <button class="btn btn-sm btn-raised btn-custom"><i class="glyphicon glyphicon-send"></i>
                             </button>
                         </span>
                     </div>

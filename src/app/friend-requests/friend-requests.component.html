@@ -3,7 +3,7 @@
     <div class="col-xs-6">
         <div class="container-fluid">
             <div class="panel">
-                <button class="btn btn-raised btn-info" (click)="navigateTo('add-friends')">
+                <button class="btn btn-raised btn-custom" (click)="navigateTo('add-friends')">
                     Add Friends
                 </button>
             </div>
@@ -12,7 +12,7 @@
     <div class="col-xs-6">
         <div class="container-fluid">
             <div class="panel">
-                <button class="btn btn-raised btn-info" (click)="navigateTo('friends')">
+                <button class="btn btn-raised btn-custom" (click)="navigateTo('friends')">
                     Show Friends
                 </button>
             </div>
@@ -31,11 +31,11 @@
                 <div class="panel">
                     <h2>{{request['display-name']}}</h2>
                     <b>Email: {{request['email']}}</b>
-                    <button class="btn btn-raised btn-success btn-sm" (click)="acceptRequest(request)">Accept</button>
+                    <button class="btn btn-raised btn-custom btn-sm" (click)="acceptRequest(request)">Accept</button>
                 </div>
             </div>
             <div *ngIf="canLoadMoreData" class="panel">
-                <button id="load-more-posts" class="btn btn-raised btn-info" (click)="tryToLoadMoreData()">
+                <button id="load-more-posts" class="btn btn-raised btn-custom" (click)="tryToLoadMoreData()">
                     Show More Friend Requests
                 </button>
             </div>

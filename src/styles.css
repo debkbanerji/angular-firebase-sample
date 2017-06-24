@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import "app/shared/bootstrap-material-design.min.css";
 @import "app/shared/ng2-file-input.css";
+
+
 body {background-color: #EEEEEE}
+
+
+/*Custom Navbar Color*/
+.navbar, .navbar.navbar-custom {
+    background-color: #f44336;
+    color: rgba(255, 255, 255, .84)
+}
+
+
+/* Custom Button Color*/
+.btn-group-raised .btn.btn-custom, .btn-group-raised .input-group-btn .btn.btn-custom, .btn.btn-fab.btn-custom, .btn.btn-raised.btn-custom, .input-group-btn .btn.btn-fab.btn-custom, .input-group-btn .btn.btn-raised.btn-custom {
+    background-color: #f44336;
+    color: rgba(255, 255, 255, .84)
+}
+
+.btn-group-raised .btn:not(.btn-link).active.btn-custom, .btn-group-raised .btn:not(.btn-link):active.btn-custom, .btn-group-raised .btn:not(.btn-link):focus.btn-custom, .btn-group-raised .btn:not(.btn-link):hover.btn-custom, .btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-custom, .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-custom, .btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-custom, .btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-custom, .btn.btn-raised:not(.btn-link).active.btn-custom, .btn.btn-raised:not(.btn-link):active.btn-custom, .btn.btn-raised:not(.btn-link):focus.btn-custom, .btn.btn-raised:not(.btn-link):hover.btn-custom, .input-group-btn .btn.btn-raised:not(.btn-link).active.btn-custom, .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-custom, .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-custom, .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-custom {
+    background-color: #f44336;
+}
+
+.btn-group-vertical.open > .dropdown-toggle.btn.btn-custom, .btn-group.open > .dropdown-toggle.btn.btn-custom {
+    background-color: #f44336
+}
+
+.btn:not(.btn-raised).btn-custom, .input-group-btn .btn:not(.btn-raised).btn-custom {
+    color: #f44336
+}
