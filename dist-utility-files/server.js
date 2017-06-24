@@ -54,13 +54,9 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname)));
 
-
-
-// app.use(express.static('/'));
-//
-// app.all('*', function (req, res) {
-//     res.redirect("/");
-// });
+app.all('*', function (req, res) {
+    res.redirect("/");
+});
 
 app.listen(port, function () {
     console.log('listening on port ' + port);
