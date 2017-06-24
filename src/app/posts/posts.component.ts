@@ -44,6 +44,13 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.feedLocation = '/posts';
         this.numPostsObject = this.db.object(this.feedLocation + '/num-posts');
 
+        // Set up file input component
+        this.fileInputComponent.showPreviews = false; // Set to true to show previews of uploaded images
+        this.fileInputComponent.extensions = ['jpg','jpeg', 'png', 'svg', 'img'];
+        this.fileInputComponent.multiple = true;
+        this.fileInputComponent.dropText = 'Drop Image to Upload';
+        this.fileInputComponent.invalidFileText = 'Please upload an image file';
+
         // asyncronously find the last item in the list
         this.lastKeySubscription = this.db.list(this.feedLocation + '/posts', {
             query: {
@@ -137,8 +144,9 @@ export class PostsComponent implements OnInit, OnDestroy {
                 // Unique path as one user cannot upload multiple files at the exact same time
 
                 imageRef.put(image).then(function (snapshot) {
-                    component.fileInputComponent.removeFile(image);
-                    // Add image URL, then push
+                    // Remove image from form
+                    component.removeImage(image);
+                    // Add image URL, then push post
                     post['image-url'] = snapshot.downloadURL;
                     component.postsArray.push(post);
                     component.onPostSuccess(form);
@@ -163,6 +171,10 @@ export class PostsComponent implements OnInit, OnDestroy {
         });
         form.resetForm();
         this.submitText = 'Successfully made post';
+    }
+
+    private removeImage(file) {
+        this.fileInputComponent.removeFile(file);
     }
 
     public removePost(post) {

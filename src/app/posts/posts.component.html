@@ -11,14 +11,13 @@
                     <!--<div class="form-group">-->
                     <input name="title" ngModel required placeholder="Post Title"
                            class="form-control">
-                    <textarea name="text" ngModel placeholder="Post Text" class="form-control">
-
-                    </textarea>
-                    <ng2-file-input [drop-text]="'Drop Image to Upload'"
-                                    [multiple]="false"
-                                    [extensions]="['jpg','jpeg', 'png', 'svg', 'img']">
-                                    <!--(onChange)="onFileChange($event)">-->
+                    <textarea name="text" ngModel placeholder="Post Text" class="form-control"></textarea>
+                    <ng2-file-input><!--(onChange)="onFileChange($event)">-->
                     </ng2-file-input>
+                    <div *ngIf="fileInputComponent.currentFiles.length > 0">
+                        <b>{{fileInputComponent.currentFiles[0].name}}</b>
+                        <button class="btn btn-raised btn-danger btn-sm" (click)="removeImage(fileInputComponent.currentFiles[0])">Remove Image</button>
+                    </div>
                     <button class="btn btn-raised btn-success">Make New Post</button>
                     <!--</div>-->
                 </form>
