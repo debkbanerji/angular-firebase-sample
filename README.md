@@ -105,7 +105,7 @@ Also, don't forget to replace the content of this `README.md` file with your own
 
 ## Starting The Application in a Development Environment
 
-You can start a development server by running `npm develop` and navigating to `http://localhost:4200/` The app will automatically reload if you change any of the source files.
+You can start a development server by running `npm run develop` and navigating to `http://localhost:4200/` The app will automatically reload if you change any of the source files.
 Note that this is simply a wrapper around `ng serve`.
 
 ## Building The Application
