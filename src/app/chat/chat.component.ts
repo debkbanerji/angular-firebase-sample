@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private uid2Subscription: Subscription;
     private friendSubscription: Subscription;
 
-    public shouldDeleteOldMessages = true; // Set to true if you do not want to save space by not maintaining message history
+    public shouldDeleteOldMessages = true; // Set to true if you want to save space by not maintaining message history
     private totalMessages = 0; // NOTE: Only updated if shouldDeleteOldMessages is set to true
     private PAGE_SIZE = 20;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
