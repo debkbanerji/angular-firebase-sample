@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../providers/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private lastKey: string;
     private canLoadMoreData: boolean;
 
-    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute) {
+    constructor(public authService: AuthService, private db: AngularFireDatabase, private route: ActivatedRoute) {
     }
 
     formatDate(millis) {

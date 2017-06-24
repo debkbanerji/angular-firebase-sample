@@ -18,7 +18,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {PostsComponent} from './posts/posts.component';
-import {SettingsComponent} from './settings/settings.component';
+import {ProfileComponent} from './profile/profile.component';
 import {FriendsComponent} from './friends/friends.component';
 import {AddFriendsComponent} from './add-friends/add-friends.component';
 import {FriendRequestsComponent} from './friend-requests/friend-requests.component';
@@ -28,7 +28,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
     {path: '', component: HomePageComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
     {path: 'posts', component: PostsComponent},
-    {path: 'settings', component: SettingsComponent},
+    {path: 'profile', component: ProfileComponent},
     {path: 'friends', component: FriendsComponent},
     {path: 'add-friends', component: AddFriendsComponent},
     {path: 'friend-requests', component: FriendRequestsComponent},
@@ -42,7 +42,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
         HomePageComponent,
         NavBarComponent,
         PostsComponent,
-        SettingsComponent,
+        ProfileComponent,
         FriendsComponent,
         AddFriendsComponent,
         FriendRequestsComponent,
