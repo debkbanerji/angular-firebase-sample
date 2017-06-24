@@ -1,12 +1,13 @@
-import {Component, OnInit, OnDestroy, Inject} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 
 import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from 'angularfire2/database';
+import *as firebase from 'firebase';
 
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import *as firebase from 'firebase';
+import {Ng2FileInputComponent} from "ng2-file-input";
 
 @Component({
     selector: 'app-text-posts',
@@ -14,16 +15,17 @@ import *as firebase from 'firebase';
     styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit, OnDestroy {
+    @ViewChild(Ng2FileInputComponent) fileInputComponent: Ng2FileInputComponent;
+
     private PAGE_SIZE = 10;
     private limit: BehaviorSubject<number> = new BehaviorSubject<number>(this.PAGE_SIZE); // import 'rxjs/BehaviorSubject';
     private feedLocation: string;
     public postsArray: FirebaseListObservable<any>;
     private postsArraySubscription: Subscription;
     private lastKey: String;
-    private numPostsObject: FirebaseObjectObservable<any>;
-    public canLoadMoreData: boolean;
     private lastKeySubscription: Subscription;
-
+    public numPostsObject: FirebaseObjectObservable<any>;
+    public canLoadMoreData: boolean;
     public submitText: String;
     private userDisplayName: String;
     private userUID: String;
@@ -101,7 +103,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     private updateCanLoadState(data) {
         if (data.length > 0) {
             // If the first key in the list equals the last key in the database
-            const oldestItemIndex = 0; // remember that the array is displayed in reverse
+            const oldestItemIndex = 0;
             this.canLoadMoreData = data[oldestItemIndex].$key !== this.lastKey;
         }
     }
@@ -117,46 +119,70 @@ export class PostsComponent implements OnInit, OnDestroy {
         if (form.valid) {
             let currDate: Date;
             currDate = new Date();
-            currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000);
-            this.postsArray.push(
-                {
-                    'title': form.value.title,
-                    'text': form.value.text,
-                    'poster-display-name': this.userDisplayName,
-                    'poster-uid': this.userUID,
-                    'datetime': currDate.getTime() // For internationalization purposes
+            currDate.setTime(currDate.getTime() + currDate.getTimezoneOffset() * 60 * 1000); // For internationalization purposes
+            let timestamp = currDate.getTime();
+
+            let post = {
+                'title': form.value.title,
+                'text': form.value.text,
+                'poster-display-name': this.userDisplayName,
+                'poster-uid': this.userUID,
+                'datetime': timestamp
+            };
+
+            let component = this; // For accessing within promise
+            if (this.fileInputComponent.currentFiles.length > 0) {
+                let image = this.fileInputComponent.currentFiles[0]; // Input is limited to one file - can be changed in view
+                let imageRef = firebase.storage().ref().child('/users/' + this.userUID + '/' + timestamp);
+                // Unique path as one user cannot upload multiple files at the exact same time
+
+                imageRef.put(image).then(function (snapshot) {
+                    component.fileInputComponent.removeFile(image);
+                    // Add image URL, then push
+                    post['image-url'] = snapshot.downloadURL;
+                    component.postsArray.push(post);
+                    component.onPostSuccess(form);
+                }).catch(function(error) {
+                    console.log(error)
                 });
+            } else {
+                // Push without uploading image
+                component.postsArray.push(post);
+                component.onPostSuccess(form);
+            }
 
-            console.log(form.value);
-            let image = form.value.image;
-            console.log(image);
-            console.log(firebase);
-            let imageRef = firebase.storage().ref().child('/' + this.userUID + '/' + currDate.getTime());
-            // Unique path as one user cannot upload multiple files at the exact same time
-            imageRef.put(image).then(function(snapshot) {
-                console.log('Uploaded a blob or file!');
-            });
 
-            form.resetForm();
-            this.submitText = 'Successfully made post';
-            this.numPostsObject.$ref.transaction(data => {
-                return data + 1;
-            });
         } else {
             this.submitText = 'Please fill out all the required data';
         }
     }
 
-    private removePost(key) {
-        this.postsArray.remove(key);
+    private onPostSuccess(form: NgForm) {
+        this.numPostsObject.$ref.transaction(data => {
+            return data + 1;
+        });
+        form.resetForm();
+        this.submitText = 'Successfully made post';
+    }
+
+    public removePost(post) {
+        this.postsArray.remove(post.$key);
+        if (post['image-url']) {
+            // There is an associated image that needs to be deleted
+            let storage = firebase.storage();
+            let imageReference = storage.refFromURL(post['image-url']);
+            imageReference.delete().then(function() {
+                // File deleted successfully
+            }).catch(function(error) {
+                console.log(error)
+            });
+        }
         this.numPostsObject.$ref.transaction(data => {
             return data - 1;
         });
     }
 
     ngOnDestroy() {
-        // this.userDataSubscription.unsubscribe();
-        // this.numPostsSubscription.unsubscribe();
         this.lastKeySubscription.unsubscribe();
         this.postsArraySubscription.unsubscribe();
         // window.onscroll = () => {

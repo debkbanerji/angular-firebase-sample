@@ -41,6 +41,8 @@ export const config = {
 ```
 #### Publishing Rules
 
+##### Realtime Database
+
 The default Firebase realtime database rules are as follows:
 ```
 {
@@ -61,6 +63,34 @@ For faster (albeit less secure) development, you can also replace the rules with
   }
 }
 ```
+
+##### Storage
+
+The default Firebase storage rules are as follows:
+
+```
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+For increased security, it is recommended that you replace these rules with those defined in `firebase-storage-rules`.
+
+For faster (albeit less secure) development, you can also replace the rules with:
+```
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write;
+    }
+  }
+}
+```
+
 
 ### Replacing Placeholders
 

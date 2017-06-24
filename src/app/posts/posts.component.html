@@ -11,17 +11,14 @@
                     <!--<div class="form-group">-->
                     <input name="title" ngModel required placeholder="Post Title"
                            class="form-control">
-                    <textarea name="text" ngModel required placeholder="Post Text" class="form-control">
+                    <textarea name="text" ngModel placeholder="Post Text" class="form-control">
 
                     </textarea>
-                    <!--<label for="file-upload" class="btn btn-raised btn-success">>-->
-                        <!--Custom Upload-->
-                    <!--</label>-->
-                    <!--<input id="file-upload" name="image" type="file" >-->
-                    <label class="btn btn-raised btn-success">
-                        <input type="file" name="image" ngModel/>
-                        Upload Image
-                    </label>
+                    <ng2-file-input [drop-text]="'Drop Image to Upload'"
+                                    [multiple]="false"
+                                    [extensions]="['jpg','jpeg', 'png', 'svg', 'img']">
+                                    <!--(onChange)="onFileChange($event)">-->
+                    </ng2-file-input>
                     <button class="btn btn-raised btn-success">Make New Post</button>
                     <!--</div>-->
                 </form>
@@ -32,10 +29,11 @@
                     <!--For previewing data as JSON-->
                     <!--{{post | json}}-->
                     <h3>{{post['title']}}</h3>
-                    <p>{{post['text']}}</p>
+                    <img src="{{post['image-url']}}" *ngIf="post['image-url']" class="img-responsive panel">
+                    <p *ngIf="post['text']">{{post['text']}}</p>
                     <p>Posted by {{post['poster-display-name']}} on <b>{{formatDate(post['datetime'])}}</b></p>
                     <!--Users can only delete posts that they have made-->
-                    <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post['$key'])"
+                    <button *ngIf="post['poster-uid'] === userUID" (click)="removePost(post)"
                             class="btn btn-sm btn-raised btn-danger">Delete Post
                     </button>
                 </div>

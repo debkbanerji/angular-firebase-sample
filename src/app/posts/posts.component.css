@@ -13,8 +13,3 @@
     padding-left: 10px;
     padding-right: 10px
 }
-
-/*Hide file input and style label instead*/
-input[type="file"] {
-    display: none;
-}

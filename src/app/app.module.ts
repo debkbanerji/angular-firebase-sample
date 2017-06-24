@@ -5,6 +5,7 @@ import {HttpModule} from '@angular/http';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgArrayPipesModule} from 'ngx-pipes';
+import {Ng2FileInputModule} from 'ng2-file-input';
 
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -53,6 +54,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
         HttpModule,
         NgArrayPipesModule,
         AngularFireModule.initializeApp(config),
+        Ng2FileInputModule.forRoot(),
         RouterModule.forRoot(routes)
     ],
     providers: [AuthService, AngularFireAuth, AngularFireDatabase],
