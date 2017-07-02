@@ -121,6 +121,8 @@ You can use `npm run messy-build` in order to build the application without the 
 
 If you only want the static files, without the server and package files, you can simply run `ng build` yourself. If you do this, you can also run `node distribution-server.js` in order to test the build.
 
+Note: On Windows, you will have to copy over the files in  `dist-utility-files` manually, as the `cp` command is not supported.
+
 ## Deploying The Application
 
 If you are deploying the application to a production environment, it is recommended for you to build the application and deploy the static files of the built version (optionally using the 2 files in `dist-utility-files`).
